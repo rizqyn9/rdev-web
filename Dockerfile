@@ -1,7 +1,6 @@
 ### GLOBALS ###
 ARG GLIBC_RELEASE=2.34-r0
 
-
 ### GET ###
 FROM alpine:latest as get
 
@@ -20,7 +19,7 @@ RUN wget https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
 
 
 ### IMAGE ###
-FROM alpine:latest
+FROM node:lts-alpine3.18
 
 # install bun
 COPY --from=get /tmp/bun-linux-x64/bun /usr/local/bin
@@ -32,11 +31,9 @@ COPY --from=get /tmp/glibc-${GLIBC_RELEASE}.apk /tmp
 
 # install glibc
 RUN apk --no-cache --force-overwrite add /tmp/glibc-${GLIBC_RELEASE}.apk && \
-
   # cleanup
   rm /etc/apk/keys/sgerrand.rsa.pub && \
   rm /tmp/glibc-${GLIBC_RELEASE}.apk && \
-
   # smoke test
   bun --version
 
