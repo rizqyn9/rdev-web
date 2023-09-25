@@ -1,4 +1,10 @@
+# fly.toml app configuration file generated for rdev on 2023-09-25T14:13:52+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
 app = "rdev"
+primary_region = "sin"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
@@ -6,10 +12,11 @@ kill_timeout = "5s"
   auto_rollback = true
   enable_consul = true
 
+[build]
+
 [[services]]
   protocol = "tcp"
-  internal_port = 8080
-  http_checks = []
+  internal_port = 3000
 
   [[services.ports]]
     port = 80
@@ -19,7 +26,6 @@ kill_timeout = "5s"
   [[services.ports]]
     port = 443
     handlers = ["tls", "http"]
-
   [services.concurrency]
     type = "requests"
     hard_limit = 200
@@ -29,4 +35,3 @@ kill_timeout = "5s"
     interval = "15s"
     timeout = "2s"
     grace_period = "10s"
-    restart_limit = 6
