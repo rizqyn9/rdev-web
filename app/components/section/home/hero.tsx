@@ -12,27 +12,37 @@ export function Hero() {
 
   const creativeX = useTransform(scrollYProgress, [0, 1], ["5%", "30vw"])
   const developerX = useTransform(scrollYProgress, [0, 1], ["-5%", "-21vw"])
-  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0])
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.9], [1, 1, 0])
   const y = useTransform(
     scrollYProgress,
-    [0.2, 0.5, 1],
-    ["0vh", "-20vh", "0vh"]
+    [0.2, 0.3, 1],
+    // ["15vh", "-20vh", "0vh"]
+    ["35vh", "40vh", "150vh"]
   )
 
   return (
     <div ref={ref} className="">
       <section className="px-4 flex h-screen flex-col relative">
-        <div className="text-[5rem] inset-0 justify-center filter mix-blend-difference sm:text-[6rem] fixed md:text-[8rem] flex flex-col pt-10 font-bold z-40">
-          <motion.div style={{ marginRight: "auto", x: creativeX, y, opacity }}>
+        <div className="text-[3rem] sm:text-[5rem] md:text-[5rem] lg:text-[10rem] inset-0 justify-center filter mix-blend-difference flex flex-col font-bold z-40">
+          <motion.div
+            style={{ marginRight: "auto", x: creativeX, y, opacity }}
+            className="my-auto lg:-mt-[10rem]"
+          >
             <AnimatedTextTemplate1 text="Creative" />
           </motion.div>
-          <motion.div style={{ marginLeft: "auto", x: developerX, y, opacity }}>
+          <motion.div
+            style={{ marginLeft: "auto", x: developerX, y, opacity }}
+            className="my-auto"
+          >
             <AnimatedTextTemplate1 text="Developer" />
           </motion.div>
         </div>
-        <p className="text-2xl fixed bottom-10 left-6 italic font-thin">
+        <motion.p
+          className="text-2xl fixed bottom-10 left-6 italic font-thin"
+          style={{ opacity }}
+        >
           rizqynugroho88@gmail.com
-        </p>
+        </motion.p>
       </section>
       <SkillSet />
     </div>
