@@ -49,7 +49,7 @@ export function SkillSet() {
         ref={ref}
       >
         <motion.div
-          className="z-50 -mb-24 md:mb-0 m-auto text-4xl md:text-8xl lg:text-[10rem] flex flex-col items-center justify-center mix-blend-difference"
+          className="z-20 -mb-24 md:mb-0 m-auto text-4xl md:text-8xl lg:text-[10rem] flex flex-col items-center justify-center mix-blend-difference"
           whileHover={{}}
         >
           <AnimatedTextTemplate2

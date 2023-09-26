@@ -16,7 +16,7 @@ const NAV_ITEM = [
   },
   {
     label: "About",
-    to: "#featured-project",
+    to: "#about-me",
   },
 ]
 
