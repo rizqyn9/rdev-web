@@ -47,6 +47,7 @@ type ImageInViewProps = ComponentProps<typeof motion.img> & {
   title: string
   desc: string
 }
+
 export function ImageInView(props: ImageInViewProps) {
   const { className, title, desc, ...rest } = props
   const ref = useRef<HTMLImageElement>(null)
@@ -99,7 +100,7 @@ export function SelectedProject() {
   const visible = useInView(ref)
 
   return (
-    <section ref={ref} className="min-h-[96vh]">
+    <section ref={ref} className="min-h-[96vh]" id="work">
       <div className="container flex flex-col py-16">
         <div className="flex justify-end items-end flex-col w-full font-extrabold md:text-8xl text-4xl">
           <AnimatedTextTemplate2 text="Selected" visible={visible} />

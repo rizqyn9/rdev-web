@@ -12,7 +12,7 @@ const NAV_ITEM = [
   },
   {
     label: "Work",
-    to: "#featured-project",
+    to: "#work",
   },
   {
     label: "About",
