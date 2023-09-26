@@ -22,10 +22,12 @@ const NAV_ITEM = [
 
 function NavRdev() {
   return (
-    <h1 className="text-2xl font-bold">
-      <AnimatedTextTemplate1 text="Rdev." />
-      {/* RDev<span className="text-red-400 text-4xl">.</span> */}
-    </h1>
+    <Link to="/">
+      <h1 className="text-2xl font-bold">
+        <AnimatedTextTemplate1 text="Rdev." />
+        {/* RDev<span className="text-red-400 text-4xl">.</span> */}
+      </h1>
+    </Link>
   )
 }
 
