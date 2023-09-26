@@ -4,11 +4,10 @@ import { AnimatedTextTemplate2 } from "~/components/typography/animated"
 
 const images = {
   1: [
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    "https://ik.imagekit.io/connect2203/notopeli/95D22631-0403-493D-847B-2FDC7D66664D%202_thVUMkEqz.JPG?updatedAt=1695703039700",
+    "https://ik.imagekit.io/connect2203/notopeli/1FBB47DC-6A18-4AB6-941D-303AA3D59E70%202_1gA12AxTu.JPG?updatedAt=1695703039875",
+    "https://ik.imagekit.io/connect2203/notopeli/IMG_5137%202_FlkFsJbuh-.HEIC?updatedAt=1695703040068",
+    "https://ik.imagekit.io/connect2203/notopeli/93C27CBF-EECD-4BFB-9B74-C93CDC81079B%202_slZKx6Daa4.JPG?updatedAt=1695703039951",
   ],
   2: [
     "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
@@ -42,7 +41,7 @@ export function SkillSet() {
           <AnimatedTextTemplate2
             visible={visible}
             // text="My evolving skillset"
-            text="My"
+            text="Noto peli"
             className="text-6xl font-extrabold left-[3vw] top-10"
           />
           <AnimatedTextTemplate2
