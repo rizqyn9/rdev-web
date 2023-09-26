@@ -15,9 +15,10 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.5, 0.9], [1, 1, 0])
   const y = useTransform(
     scrollYProgress,
-    [0.2, 0.3, 1],
+    [0, 1],
     // ["15vh", "-20vh", "0vh"]
-    ["35vh", "40vh", "150vh"]
+    // ["35vh", "40vh", "150vh"]
+    ["35vh", "150vh"]
   )
 
   return (
@@ -38,7 +39,7 @@ export function Hero() {
           </motion.div>
         </div>
         <motion.p
-          className="text-2xl container italic font-thin mt-auto mb-6"
+          className="text-xs md:text-2xl container italic font-thin mt-auto mb-6"
           style={{ opacity }}
         >
           rizqynugroho88@gmail.com
