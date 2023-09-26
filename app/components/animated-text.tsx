@@ -11,6 +11,22 @@ function Wrapper(props: WrapperProps) {
   )
 }
 
+function splitter(text: string) {
+  const splitWords = text.split(" ")
+  const words = []
+
+  for (const [, item] of splitWords.entries()) {
+    words.push(item.split(""))
+  }
+
+  // Add a space ("\u00A0") to the end of each word
+  words.map((word) => {
+    return word.push("\u00A0")
+  })
+
+  return words
+}
+
 const item = {
   hidden: {
     y: "200%",
@@ -27,23 +43,7 @@ const item = {
 const TEXT = "KERJA KERJA KERJA BUAT HALALIN KAMU DEK TASYOO"
 
 export function AnimatedText() {
-  const words = useMemo(() => {
-    const splitWords = TEXT.split(" ")
-    const words = []
-
-    for (const [, item] of splitWords.entries()) {
-      words.push(item.split(""))
-    }
-
-    // Add a space ("\u00A0") to the end of each word
-    words.map((word) => {
-      return word.push("\u00A0")
-    })
-
-    words[words.length - 1].push("😘😘😘😘😘")
-
-    return words
-  }, [])
+  const words = useMemo(() => splitter(TEXT), [])
 
   return (
     <p className="text-center">

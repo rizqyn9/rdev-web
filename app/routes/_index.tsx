@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@remix-run/node"
-import { AnimatedText } from "~/components/animated-text"
-import { Nav } from "~/components/nav"
-import { motion } from "framer-motion"
+import { Nav } from "~/components/ui/nav"
+import { Hero } from "~/components/section/home/hero"
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,21 +11,11 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div>
+    <>
       <Nav />
-      <motion.div
-        initial="hidden"
-        animate={"visible"}
-        variants={{
-          visible: {
-            transition: {
-              staggerChildren: 0.025,
-            },
-          },
-        }}
-      >
-        <AnimatedText />
-      </motion.div>
-    </div>
+      <main className="flex flex-col">
+        <Hero />
+      </main>
+    </>
   )
 }

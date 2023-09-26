@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* tailwind is configured to prefer this font */
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-ExtraBold.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* 
+@font-face {
+  font-family: "Matter";
+  src: url("/fonts/Matter-Regular.woff2") format("woff2"),
+    url("/fonts/Matter-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} */

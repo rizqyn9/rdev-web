@@ -13,6 +13,20 @@ import tailwindcss from "~/tailwind.css"
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
   { rel: "stylesheet", href: tailwindcss },
+  {
+    rel: "preload",
+    as: "font",
+    href: "/fonts/poppins/Poppins-ExtraBold.ttf",
+    type: "font/ttf",
+    crossOrigin: "anonymous",
+  },
+  // {
+  //   rel: "preload",
+  //   as: "font",
+  //   href: "/fonts/Matter-Regular.woff2",
+  //   type: "font/woff2",
+  //   crossOrigin: "anonymous",
+  // },
 ]
 
 export default function App() {
@@ -24,7 +38,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-slate-950 text-white">
+      <body className="bg-slate-950 font-normal text-white font-sans">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

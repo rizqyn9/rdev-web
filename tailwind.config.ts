@@ -1,3 +1,4 @@
+import defaultTheme from "tailwindcss/defaultTheme.js"
 import type { Config } from "tailwindcss"
 
 export default {
@@ -6,6 +7,9 @@ export default {
     extend: {
       container: {
         center: true,
+      },
+      fontFamily: {
+        sans: ["Poppins", ...defaultTheme.fontFamily.sans],
       },
     },
   },
