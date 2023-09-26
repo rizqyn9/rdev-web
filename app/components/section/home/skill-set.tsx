@@ -27,7 +27,7 @@ const images = {
 export function SkillSet() {
   const ref = useRef<HTMLDivElement>(null)
   const refSpan = useRef<HTMLSpanElement>(null)
-  const visible = useInView(refSpan)
+  const visible = useInView(refSpan, {})
   const { scrollYProgress } = useScroll({
     // target: ref,
     // offset: ["start", "end"],
@@ -36,6 +36,7 @@ export function SkillSet() {
   const up = useTransform(scrollYProgress, [0, 1], ["-200vh", "0vh"], {
     ease: easeInOut,
   })
+
   const down = useTransform(scrollYProgress, [0, 1], ["0vh", "-50vh"], {
     ease: easeInOut,
   })
@@ -43,25 +44,28 @@ export function SkillSet() {
   return (
     <>
       <section
-        className="bg-white flex items-center justify-center relative h-[95vh] min-h-full"
-        id="skill-set"
+        className="flex flex-col items-center justify-center relative h-[95vh] min-h-full"
+        id="featured-project"
         ref={ref}
       >
-        <div className="absolute z-50 mix-blend-difference">
+        <motion.div
+          className="z-50 -mb-24 md:mb-0 m-auto text-4xl md:text-8xl lg:text-[10rem] flex flex-col items-center justify-center mix-blend-difference"
+          whileHover={{}}
+        >
           <AnimatedTextTemplate2
             visible={visible}
             // text="My evolving skillset"
-            text="Noto peli"
-            className="text-6xl font-extrabold left-[3vw] top-10"
+            text="Featured"
+            className="font-extrabold"
           />
           <AnimatedTextTemplate2
             visible={visible}
             // text="My evolving skillset"
             text="Projects"
-            className="text-6xl font-extrabold left-[3vw] top-10"
+            className="font-thin"
           />
-        </div>
-        <div className="grid bg-black gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-h-[200vh] md:max-h-screen overflow-hidden z-10 absolute inset-0">
+        </motion.div>
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-h-[200vh] md:max-h-screen overflow-hidden z-10 absolute inset-0">
           <motion.div
             style={{ y: up }}
             className="flex flex-col gap-6"
@@ -102,7 +106,7 @@ export function SkillSet() {
             })}
           </motion.div>
         </div>
-        <span className="absolute bottom-0 z-50" ref={refSpan}>
+        <span className="mt-auto mb-16 z-50 bg-red-600" ref={refSpan}>
           /
         </span>
       </section>

@@ -21,7 +21,7 @@ export function Hero() {
   )
 
   return (
-    <div ref={ref} className="">
+    <div ref={ref} className="container">
       <section className="px-4 flex h-screen flex-col relative">
         <div className="text-[3rem] sm:text-[5rem] md:text-[5rem] lg:text-[10rem] inset-0 justify-center filter mix-blend-difference flex flex-col font-bold z-40">
           <motion.div
@@ -38,7 +38,7 @@ export function Hero() {
           </motion.div>
         </div>
         <motion.p
-          className="text-2xl fixed bottom-10 left-6 italic font-thin"
+          className="text-2xl container italic font-thin mt-auto mb-6"
           style={{ opacity }}
         >
           rizqynugroho88@gmail.com
