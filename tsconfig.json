@@ -1,22 +1,28 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
+    "noImplicitAny": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@/icon-name": [
+        "./app/components/ui/icons/name.d.ts",
+        "./types/icon-name.d.ts"
+      ]
     },
-
-    // Remix takes care of building everything in `remix build`.
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
     "noEmit": true
   }
 }

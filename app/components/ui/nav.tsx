@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react"
-import { AnimatedTextTemplate1 } from "../typography/animated"
+import { AnimatedTextTemplate1 } from "../typography/animated.tsx"
 
 const NAV_ITEM = [
   {

@@ -3,7 +3,7 @@
 import type { Variants } from "framer-motion"
 import { motion } from "framer-motion"
 import { useMemo, type ComponentProps } from "react"
-import clsxm from "~/utils/clsxm"
+import clsxm from "~/utils/clsxm.tsx"
 
 type WrapperProps = ComponentProps<"span">
 function Wrapper(props: WrapperProps) {

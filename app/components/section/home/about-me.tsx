@@ -1,6 +1,6 @@
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-import { AnimatedTextTemplate2 } from "~/components/typography/animated"
+import { AnimatedTextTemplate2 } from "~/components/typography/animated.tsx"
 
 export function AboutMe() {
   const ref = useRef<HTMLElement>(null)

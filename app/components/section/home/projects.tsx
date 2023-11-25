@@ -1,8 +1,8 @@
 import { motion, useInView } from "framer-motion"
 import type { ComponentProps } from "react"
 import { useRef } from "react"
-import { AnimatedTextTemplate2 } from "~/components/typography/animated"
-import clsxm from "~/utils/clsxm"
+import { AnimatedTextTemplate2 } from "~/components/typography/animated.tsx"
+import clsxm from "~/utils/clsxm.tsx"
 
 const PROJECTS = [
   {

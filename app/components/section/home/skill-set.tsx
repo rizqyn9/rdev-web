@@ -6,7 +6,7 @@ import {
   easeInOut,
 } from "framer-motion"
 import { useRef } from "react"
-import { AnimatedTextTemplate2 } from "~/components/typography/animated"
+import { AnimatedTextTemplate2 } from "~/components/typography/animated.tsx"
 
 const images = {
   2: [

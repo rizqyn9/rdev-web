@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion"
-import { AnimatedTextTemplate1 } from "../../typography/animated"
+import { AnimatedTextTemplate1 } from "../../typography/animated.tsx"
 import { useRef } from "react"
-import { SkillSet } from "./skill-set"
+import { SkillSet } from "./skill-set.tsx"
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
