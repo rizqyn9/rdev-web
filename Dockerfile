@@ -1,5 +1,5 @@
 # base node image
-FROM node:20-slim as base
+FROM node:18-bookworm-slim as base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
