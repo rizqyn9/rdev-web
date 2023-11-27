@@ -75,6 +75,7 @@ export default function BlogPage() {
           className="focus-ring w-full rounded-lg object-cover object-center transition"
           alt="banner"
           src={banner.src}
+          crossOrigin="anonymous"
         />
       </div>
       <Tags list={categories} className="gap-4 my-5" />

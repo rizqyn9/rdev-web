@@ -1,56 +1,62 @@
-### GLOBALS ###
-ARG GLIBC_RELEASE=2.34-r0
+# base node image
+FROM node:20-slim as base
 
-### GET ###
-FROM alpine:latest as get
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# prepare environment
-WORKDIR /tmp
-RUN apk --no-cache add unzip
-
-# get bun
-ADD https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64.zip bun-linux-x64.zip
-RUN unzip bun-linux-x64.zip
-
-# get glibc
-ARG GLIBC_RELEASE
-RUN wget https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_RELEASE}/glibc-${GLIBC_RELEASE}.apk
-
-
-### IMAGE ###
-FROM node:lts-alpine3.18
-
-# install bun
-COPY --from=get /tmp/bun-linux-x64/bun /usr/local/bin
-
-# prepare glibc
-ARG GLIBC_RELEASE
-COPY --from=get /tmp/sgerrand.rsa.pub /etc/apk/keys
-COPY --from=get /tmp/glibc-${GLIBC_RELEASE}.apk /tmp
-
-# install glibc
-RUN apk --no-cache --force-overwrite add /tmp/glibc-${GLIBC_RELEASE}.apk && \
-  # cleanup
-  rm /etc/apk/keys/sgerrand.rsa.pub && \
-  rm /tmp/glibc-${GLIBC_RELEASE}.apk && \
-  # smoke test
-  bun --version
-
-#######################################################################
-
-RUN mkdir /app
-WORKDIR /app
-
+# set for base and all layer that inherit from it
 ENV NODE_ENV production
 
-COPY . .
+RUN apt-get update
 
-RUN bun install
-RUN bun run build
+# Install all node_modules, including dev dependencies
+FROM base as deps
 
-LABEL fly_launch_runtime="bun"
+WORKDIR /myapp
 
-WORKDIR /app
-ENV NODE_ENV production
-CMD [ "bun", "run", "start" ]
+ADD package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Setup production node_modules
+FROM base as production-deps
+
+WORKDIR /myapp
+
+ADD package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+# Build the app
+FROM base as build
+
+WORKDIR /myapp
+
+COPY --from=deps /myapp/node_modules /myapp/node_modules
+
+ADD . .
+RUN pnpm build
+
+# Finally, build the production image with minimal footprint
+FROM base
+
+ENV FLY="true"
+ENV INTERNAL_PORT="8080"
+ENV PORT="8081"
+ENV NODE_ENV="production"
+
+# add shortcut for connecting to database CLI
+RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
+
+WORKDIR /myapp
+
+COPY --from=production-deps /myapp/node_modules /myapp/node_modules
+
+COPY --from=build /myapp/server-build /myapp/server-build
+COPY --from=build /myapp/build /myapp/build
+COPY --from=build /myapp/public /myapp/public
+COPY --from=build /myapp/package.json /myapp/package.json
+COPY --from=build /myapp/app/components/ui/icons /myapp/app/components/ui/icons
+
+ADD . .
+
+CMD ["pnpm", "start"]
