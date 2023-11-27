@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "run-s build:*",
-    "build:remix": "remix build --sourcemap",
+    "build:remix": "./node_modules/.bin/remix build --sourcemap",
     "build:server": "tsx ./other/build-server.ts",
     "predev": "npm run build:icons --silent",
     "dev": "remix dev -c \"node ./server/dev-server.js\" --manual",
