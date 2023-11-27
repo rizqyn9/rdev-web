@@ -6,7 +6,7 @@ import { SelectedProject } from "~/components/section/home/projects.tsx"
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "RDev" },
+    { title: "RDev." },
     { name: "description", content: "Welcome to RDev!" },
   ]
 }

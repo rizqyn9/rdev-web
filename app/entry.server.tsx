@@ -1,128 +1,65 @@
 import { PassThrough } from "node:stream"
 
-import type { AppLoadContext, EntryContext } from "@remix-run/node"
-import { createReadableStreamFromReadable } from "@remix-run/node"
+import {
+  createReadableStreamFromReadable,
+  type HandleDocumentRequestFunction,
+} from "@remix-run/node"
 import { RemixServer } from "@remix-run/react"
 import isbot from "isbot"
 import { renderToPipeableStream } from "react-dom/server"
+import { makeTimings } from "./utils/timing.server.ts"
+import { NonceProvider } from "./utils/nonce-provider.ts"
 
 const ABORT_DELAY = 5_000
 
-export default function handleRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext,
-  loadContext: AppLoadContext
-) {
-  return isbot(request.headers.get("user-agent"))
-    ? handleBotRequest(
-        request,
-        responseStatusCode,
-        responseHeaders,
-        remixContext
-      )
-    : handleBrowserRequest(
-        request,
-        responseStatusCode,
-        responseHeaders,
-        remixContext
-      )
-}
+type DocRequestArgs = Parameters<HandleDocumentRequestFunction>
 
-function handleBotRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext
-) {
-  return new Promise((resolve, reject) => {
-    let shellRendered = false
+export default function handleRequest(...args: DocRequestArgs) {
+  const [
+    request,
+    responseStatusCode,
+    responseHeaders,
+    remixContext,
+    loadContext,
+  ] = args
+  const callbackName = isbot(request.headers.get("user-agent"))
+    ? "onAllReady"
+    : "onShellReady"
+
+  const nonce = String(loadContext.cspNonce) ?? undefined
+
+  return new Promise(async (resolve, reject) => {
+    let didError = false
+    // NOTE: this timing will only include things that are rendered in the shell
+    // and will not include suspended components and deferred loaders
+    const timings = makeTimings("render", "renderToPipeableStream")
+
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <NonceProvider value={nonce}>
+        <RemixServer context={remixContext} url={request.url} />
+      </NonceProvider>,
       {
-        onAllReady() {
-          shellRendered = true
+        [callbackName]: () => {
           const body = new PassThrough()
-          const stream = createReadableStreamFromReadable(body)
-
           responseHeaders.set("Content-Type", "text/html")
-
+          responseHeaders.append("Server-Timing", timings.toString())
           resolve(
-            new Response(stream, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
-              status: responseStatusCode,
+              status: didError ? 500 : responseStatusCode,
             })
           )
-
           pipe(body)
         },
-        onShellError(error: unknown) {
-          reject(error)
+        onShellError: (err: unknown) => {
+          reject(err)
         },
-        onError(error: unknown) {
-          responseStatusCode = 500
-          // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
-          if (shellRendered) {
-            console.error(error)
-          }
+        onError: (error: unknown) => {
+          didError = true
+
+          console.error(error)
         },
-      }
-    )
-
-    setTimeout(abort, ABORT_DELAY)
-  })
-}
-
-function handleBrowserRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext
-) {
-  return new Promise((resolve, reject) => {
-    let shellRendered = false
-    const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
-      {
-        onShellReady() {
-          shellRendered = true
-          const body = new PassThrough()
-          const stream = createReadableStreamFromReadable(body)
-
-          responseHeaders.set("Content-Type", "text/html")
-
-          resolve(
-            new Response(stream, {
-              headers: responseHeaders,
-              status: responseStatusCode,
-            })
-          )
-
-          pipe(body)
-        },
-        onShellError(error: unknown) {
-          reject(error)
-        },
-        onError(error: unknown) {
-          responseStatusCode = 500
-          // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
-          if (shellRendered) {
-            console.error(error)
-          }
-        },
+        nonce,
       }
     )
 

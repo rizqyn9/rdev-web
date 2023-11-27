@@ -19,7 +19,6 @@ import rateLimit from "express-rate-limit"
 import getPort, { portNumbers } from "get-port"
 import helmet from "helmet"
 import morgan from "morgan"
-import { connect } from "~/services/db.server.ts"
 
 installGlobals()
 
@@ -225,7 +224,6 @@ const portToUse = await getPort({
   port: portNumbers(desiredPort, desiredPort + 100),
 })
 
-await connect()
 const server = app.listen(portToUse, () => {
   const addy = server.address()
   const portUsed =
