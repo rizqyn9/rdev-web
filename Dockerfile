@@ -1,14 +1,8 @@
 # base node image
 FROM node:18-bookworm-slim as base
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
-
-RUN apt-get update
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
@@ -16,15 +10,16 @@ FROM base as deps
 WORKDIR /myapp
 
 ADD package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN npm install --include=dev
 
 # Setup production node_modules
 FROM base as production-deps
 
 WORKDIR /myapp
 
+COPY --from=deps /myapp/node_modules /myapp/node_modules
 ADD package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+RUN npm prune --omit=dev
 
 # Build the app
 FROM base as build
@@ -34,7 +29,7 @@ WORKDIR /myapp
 COPY --from=deps /myapp/node_modules /myapp/node_modules
 
 ADD . .
-RUN pnpm build
+RUN npm run build
 
 # Finally, build the production image with minimal footprint
 FROM base
@@ -55,4 +50,4 @@ COPY --from=build /myapp/package.json /myapp/package.json
 
 ADD . .
 
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
