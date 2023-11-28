@@ -48,7 +48,7 @@ export const links: LinksFunction = () => {
 export default function App() {
   const nonce = useNonce()
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <Meta />
         <meta charSet="utf-8" />

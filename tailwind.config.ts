@@ -1,74 +1,76 @@
-import defaultTheme from "tailwindcss/defaultTheme.js"
-import type { Config } from "tailwindcss"
-import typography from "@tailwindcss/typography"
-import aspectRatio from "@tailwindcss/aspect-ratio"
-
-export default {
-  content: ["./app/**/*.{js,jsx,ts,tsx}"],
-  darkMode: "class",
-  corePlugins: {
-    aspectRatio: false,
-  },
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+	],
   theme: {
-    screens: {
-      md: "640px",
-      lg: "1024px",
-      xl: "1500px", // this is the "design resolution"
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
     },
     extend: {
-      container: {
-        center: true,
-      },
-      animation: {
-        "spin-slow": "spin 3s linear infinite",
-        "spin-xslow": "spin 7s linear infinite",
-        "reverse-spin": "reverse-spin 1s linear infinite",
-      },
-      keyframes: {
-        "reverse-spin": {
-          from: {
-            transform: "rotate(360deg)",
-          },
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
       },
-      spacing: {
-        "5vw": "5vw", // pull featured sections and navbar in the margin
-        "8vw": "8vw", // positions hero img inside the margin
-        "10vw": "10vw", // page margin
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
-      zIndex: {
-        "-10": "-10",
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
       },
-      fontFamily: {
-        sans: ["Poppins", ...defaultTheme.fontFamily.sans],
-      },
-      fontSize: {
-        xl: "1.375rem", // 22px
-        "2xl": "1.5625rem", // 25px
-        "3xl": "1.875rem", // 30px
-        "4xl": "2.5rem", // 40px
-        "5xl": "3.125rem", // 50px
-        "6xl": "3.75rem", // 60px
-        "7xl": "4.375rem", // 70px
-      },
-      gridTemplateRows: {
-        "max-content": "max-content",
-      },
-      height: {
-        hero: "min(60rem, calc(100vh - 10rem))", // screen - navbar height (lg: only)
-      },
-      maxWidth: {
-        "8xl": "96rem",
-      },
-      maxHeight: {
-        "50vh": "50vh", // max height for medium size hero images
-        "75vh": "75vh", // max height for giant size hero images
-      },
-      rotate: {
-        "-135": "-135deg",
-        135: "135deg",
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [typography, aspectRatio],
-} satisfies Config
+  plugins: [require("tailwindcss-animate")],
+}

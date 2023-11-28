@@ -9,8 +9,11 @@ import isbot from "isbot"
 import { renderToPipeableStream } from "react-dom/server"
 import { makeTimings } from "./utils/timing.server.ts"
 import { NonceProvider } from "./utils/nonce-provider.ts"
+import { init } from "./utils/env.server.ts"
 
 const ABORT_DELAY = 5_000
+
+init()
 
 type DocRequestArgs = Parameters<HandleDocumentRequestFunction>
 

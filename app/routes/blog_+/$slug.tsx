@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Tags } from "~/components/ui/tag/index.tsx"
 import { compileMdx } from "~/utils/compile-mdx.server.ts"
 import { useMdxComponent } from "~/utils/mdx.tsx"
+import fs from "fs-extra"
 
 const MOCK = {
   title: "Test",
@@ -17,6 +18,8 @@ const MOCK = {
   html: `
   # Test
   ## Hai
+  
+  <pre>aasdwasd</pre>
 
   <a href="https://google.com">Test</a>
   ---
@@ -24,7 +27,8 @@ const MOCK = {
 }
 
 export async function loader({}) {
-  const code = await compileMdx(MOCK.html)
+  const a = await fs.readFile(process.cwd() + "/test.mdx", "utf-8")
+  const code = await compileMdx(a)
   return json({
     banner: MOCK.banner,
     title: MOCK.title,
@@ -62,6 +66,12 @@ export default function BlogPage() {
       <div className="py-5">
         <button className="">{"<  Back to home"}</button>
       </div>
+      <a
+        className="twitter-share-button"
+        href="https://twitter.com/intent/tweet?text=Hello%20world"
+      >
+        Tweet
+      </a>
       {/* Title */}
       <div className="flex flex-col py-8">
         <h2 className="text-2xl font-bold">{title}</h2>
@@ -79,7 +89,7 @@ export default function BlogPage() {
         />
       </div>
       <Tags list={categories} className="gap-4 my-5" />
-      <div className="mdx prose">
+      <div className="mdx prose w-full max-w-none">
         <Component />
       </div>
     </div>

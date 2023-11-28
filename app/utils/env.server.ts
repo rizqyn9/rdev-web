@@ -2,20 +2,14 @@ import { z } from "zod"
 
 const schema = z.object({
   NODE_ENV: z.enum(["production", "development", "test"] as const),
-  DATABASE_PATH: z.string(),
-  DATABASE_URL: z.string(),
-  SESSION_SECRET: z.string(),
-  INTERNAL_COMMAND_TOKEN: z.string(),
-  HONEYPOT_SECRET: z.string(),
-  CACHE_DATABASE_PATH: z.string(),
-  // If you plan on using Sentry, uncomment this line
-  // SENTRY_DSN: z.string(),
-  // If you plan to use Resend, uncomment this line
-  // RESEND_API_KEY: z.string(),
-  // If you plan to use GitHub auth, remove the default:
-  GITHUB_CLIENT_ID: z.string().default("MOCK_GITHUB_CLIENT_ID"),
-  GITHUB_CLIENT_SECRET: z.string().default("MOCK_GITHUB_CLIENT_SECRET"),
-  GITHUB_TOKEN: z.string().default("MOCK_GITHUB_TOKEN"),
+  MONGO_URI: z.string().min(1),
+  IMAGEKIT_PUBLIC: z.string().min(1),
+  IMAGEKIT_PRIVATE: z.string().min(1),
+  IMAGEKIT_URI: z.string().min(1),
+  IMAGEKIT_ID: z.string().min(1),
+  CLOUDINARY_NAME: z.string().min(1),
+  CLOUDINARY_API_KEY: z.string().min(1),
+  CLOUDINARY_API_SECRET: z.string().min(1),
 })
 
 declare global {
