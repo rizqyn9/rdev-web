@@ -1,18 +1,20 @@
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { useEffect, useState } from "react"
 import { Tags } from "~/components/ui/tag/index.tsx"
 import { compileMdx } from "~/utils/compile-mdx.server.ts"
 import { useMdxComponent } from "~/utils/mdx.tsx"
 import fs from "fs-extra"
+import { ButtonBack } from "~/components/ui/button.tsx"
+import { Grid } from "~/components/ui/grid.tsx"
 
 const MOCK = {
-  title: "Test",
+  title: "The Jokers in a Deck of cards - on the ever-evolving Generalist Role",
   createdAt: new Date().toISOString(),
   like: 100,
   view: 2000,
   categories: ["React", "NodeJs"].map((x) => ({ text: x })),
   banner: {
+    title: "Photo",
     src: "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
   },
   html: `
@@ -29,6 +31,7 @@ const MOCK = {
 export async function loader({}) {
   const a = await fs.readFile(process.cwd() + "/test.mdx", "utf-8")
   const code = await compileMdx(a)
+  // console.log(code.matter)
   return json({
     banner: MOCK.banner,
     title: MOCK.title,
@@ -46,48 +49,28 @@ export async function loader({}) {
 export default function BlogPage() {
   const { page, categories, banner, title, createdAt, createdBy } =
     useLoaderData<typeof loader>()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setToc] = useState<string[]>([])
-
-  useEffect(() => {
-    const headings = document.querySelectorAll(".mdx h1, .mdx h2, .mdx h3")
-    const toc: string[] = []
-    headings.forEach((x) => {
-      toc.push(x.id)
-    })
-    setToc(toc)
-  }, [])
 
   const Component = useMdxComponent(page.code.code)
 
   return (
-    <div className="relative mx-10vw">
-      {/* Back */}
-      <div className="py-5">
-        <button className="">{"<  Back to home"}</button>
-      </div>
-      <a
-        className="twitter-share-button"
-        href="https://twitter.com/intent/tweet?text=Hello%20world"
-      >
-        Tweet
-      </a>
+    <div className="relative mx-auto mt-20 col-span-full max-w-xl">
+      <ButtonBack to="/blog" />
       {/* Title */}
-      <div className="flex flex-col py-8">
-        <h2 className="text-2xl font-bold">{title}</h2>
-        <h2 className="text-lg font-bold text-gray-600">
-          {new Date(createdAt).toLocaleDateString()} - {createdBy}
-        </h2>
-      </div>
-      {/* Banner */}
-      <div className="aspect-h-4 aspect-w-3 md:aspect-h-1 md:aspect-w-3 rounded-lg overflow-hidden mb-5">
-        <img
-          className="focus-ring w-full rounded-lg object-cover object-center transition"
-          alt="banner"
-          src={banner.src}
-          crossOrigin="anonymous"
-        />
-      </div>
+      <Grid as="header" className="mt-5 gap-y-5">
+        <h2 className="text-2xl col-span-full font-bold">{title}</h2>
+        <div className="col-span-full text-white/70">
+          <p>Written on September 02, 2021</p>
+        </div>
+        <div className="overflow-hidden col-span-full aspect-w-10 aspect-h-4 w-full">
+          <img
+            className="overflow-hidden rounded-lg object-cover object-center"
+            alt="banner"
+            src={banner.src}
+            title={banner.title}
+            crossOrigin="anonymous"
+          />
+        </div>
+      </Grid>
       <Tags list={categories} className="gap-4 my-5" />
       <div className="mdx prose w-full max-w-none">
         <Component />

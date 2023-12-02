@@ -8,7 +8,7 @@ const NAV_ITEM = [
   },
   {
     label: "Blog",
-    to: "#featured-project",
+    to: "/blog",
   },
   {
     label: "Work",

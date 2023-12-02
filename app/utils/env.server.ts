@@ -2,6 +2,7 @@ import { z } from "zod"
 
 const schema = z.object({
   NODE_ENV: z.enum(["production", "development", "test"] as const),
+  SESSION_SECRET: z.string(),
   MONGO_URI: z.string().min(1),
   IMAGEKIT_PUBLIC: z.string().min(1),
   IMAGEKIT_PRIVATE: z.string().min(1),

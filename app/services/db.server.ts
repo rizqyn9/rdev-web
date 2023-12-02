@@ -24,4 +24,8 @@ async function connect() {
   return db
 }
 
-export { mongoose, connect }
+async function checkConnection() {
+  return mongoose.connection.readyState
+}
+
+export { mongoose, connect, checkConnection }

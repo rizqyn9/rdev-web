@@ -1,0 +1,56 @@
+:root {
+  --color-black: #000;
+  --color-white: #fff;
+  --color-blue-100: #e8f2ff;
+  --color-blue-500: #4b96ff;
+  --color-slate-500: #a9adc1;
+  --color-gray-100: #f7f7f7;
+  --color-gray-200: #e6e9ee;
+  --color-gray-300: #dde0e4;
+  --color-gray-400: #818890;
+  --color-gray-500: #535661;
+  --color-gray-600: #4b4c53;
+  --color-gray-700: #3a3d4a;
+  --color-gray-800: #2e3039;
+  --color-gray-900: #1f2028;
+  --color-green-100: #e7f9ed;
+  --color-green-500: #30c85e;
+  --color-green-600: #68d94a;
+  --color-red-500: #ff4545;
+  --color-yellow-500: #ffd644;
+
+  --color-team-unknown: #818890;
+  --color-team-blue: #36a3ff;
+  --color-team-red: #ff4545;
+  /* yellow in light mode is... hard */
+  --color-team-yellow: #a08600;
+  --color-yellow-500: #a08600;
+  --color-yellow-500-inverted: #ffd644;
+}
+
+.light,
+.dark .text-inverse {
+  --color-team-unknown: var(--color-black);
+  --bg-primary: var(--color-white);
+  --bg-secondary: var(--color-gray-100);
+  --bg-alt: var(--color-gray-200);
+  --border-secondary: var(--color-gray-200);
+  --text-primary: var(--color-black);
+  --text-secondary: var(--color-gray-500);
+  color-scheme: light;
+}
+
+.dark,
+.light .text-inverse {
+  --color-team-yellow: #ffd644;
+  --color-yellow-500: #ffd644;
+  --color-yellow-500-inverted: #a08600;
+  --color-team-unknown: var(--color-white);
+  --bg-primary: var(--color-gray-900);
+  --bg-secondary: var(--color-gray-800);
+  --bg-alt: var(--color-gray-700);
+  --border-secondary: var(--color-gray-600);
+  --text-primary: var(--color-white);
+  --text-secondary: var(--color-slate-500);
+  color-scheme: dark;
+}

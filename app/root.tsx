@@ -7,16 +7,21 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react"
 import tailwindStyleSheetUrl from "./styles/tailwind.css"
 import proseStyleSheetUrl from "./styles/prose.css"
+import appStyleSheetUrl from "./styles/app.css"
 import { useNonce } from "./utils/nonce-provider.ts"
+import { Nav } from "./components/ui/nav.tsx"
+import { getEnv } from "./utils/env.server.ts"
 
 export const links: LinksFunction = () => {
   return [
     cssBundleHref ? { rel: "preload", href: cssBundleHref, as: "style" } : null,
     { rel: "preload", href: tailwindStyleSheetUrl, as: "style" },
     { rel: "preload", href: proseStyleSheetUrl, as: "style" },
+    { rel: "preload", href: appStyleSheetUrl, as: "style" },
     { rel: "icon", href: "/favicon.ico" },
 
     {
@@ -41,11 +46,19 @@ export const links: LinksFunction = () => {
     //
     cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
     { rel: "stylesheet", href: tailwindStyleSheetUrl },
+    { rel: "stylesheet", href: appStyleSheetUrl },
     { rel: "stylesheet", href: proseStyleSheetUrl },
   ].filter(Boolean)
 }
 
+export function loader() {
+  return {
+    env: getEnv(),
+  }
+}
+
 export default function App() {
+  const data = useLoaderData<typeof loader>()
   const nonce = useNonce()
   return (
     <html lang="en" className="dark">
@@ -56,8 +69,15 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-slate-950 font-normal text-white font-sans">
+        <Nav />
         <Outlet />
         <ScrollRestoration nonce={nonce} />
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.env)}`,
+          }}
+        />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
       </body>
