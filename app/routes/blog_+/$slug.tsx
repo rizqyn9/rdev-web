@@ -6,10 +6,11 @@ import { useMdxComponent } from "~/utils/mdx.tsx"
 import fs from "fs-extra"
 import { ButtonBack } from "~/components/ui/button.tsx"
 import { Grid } from "~/components/ui/grid.tsx"
+import { dateFormatEn } from "../../utils/date.ts"
 
 const MOCK = {
   title: "The Jokers in a Deck of cards - on the ever-evolving Generalist Role",
-  createdAt: new Date().toISOString(),
+  createdAt: dateFormatEn(new Date(), "full"),
   like: 100,
   view: 2000,
   categories: ["React", "NodeJs"].map((x) => ({ text: x })),
@@ -17,15 +18,6 @@ const MOCK = {
     title: "Photo",
     src: "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
   },
-  html: `
-  # Test
-  ## Hai
-  
-  <pre>aasdwasd</pre>
-
-  <a href="https://google.com">Test</a>
-  ---
-  `.trim(),
 }
 
 export async function loader({}) {
@@ -47,8 +39,9 @@ export async function loader({}) {
 }
 
 export default function BlogPage() {
-  const { page, categories, banner, title, createdAt, createdBy } =
-    useLoaderData<typeof loader>()
+  const loaderData = useLoaderData<typeof loader>()
+
+  const { page, categories, banner, title, createdAt } = loaderData
 
   const Component = useMdxComponent(page.code.code)
 
@@ -59,7 +52,7 @@ export default function BlogPage() {
       <Grid as="header" className="mt-5 gap-y-5">
         <h2 className="text-2xl col-span-full font-bold">{title}</h2>
         <div className="col-span-full text-white/70">
-          <p>Written on September 02, 2021</p>
+          <p>Written on {createdAt}</p>
         </div>
         <div className="overflow-hidden col-span-full aspect-w-10 aspect-h-4 w-full">
           <img

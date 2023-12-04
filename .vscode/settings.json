@@ -12,5 +12,6 @@
     "node:test",
     "console",
     "node:console"
-  ]
+  ],
+  "tailwindCSS.classAttributes": ["class", "className", "tw"]
 }

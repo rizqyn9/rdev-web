@@ -1,5 +1,7 @@
 import { z } from "zod"
 import { Blog } from "./model.server.ts"
+import { blogPreviewSchema } from "./schema.ts"
+import { aggregationValidator, createPipelines } from "../db.server.ts"
 
 export const blogDto = z.object({
   title: z.string(),
@@ -20,12 +22,33 @@ export async function createBlog(blog: BlogDto) {
   return newBlog
 }
 
-export async function blogList() {
-  const blogs = await Blog.find({})
-  return blogs.map((x) => ({
-    id: x._id.toString(),
-    title: x.title,
-    slug: x.slug,
-    content: x.content,
-  }))
+type BlogListParams = {
+  isFeatured?: boolean
+}
+
+export async function blogList(params: BlogListParams) {
+  const { pipelines } = createPipelines()
+
+  if (params.isFeatured) {
+    pipelines.push({ $match: { isFeatured: true } })
+  } else {
+    pipelines.push({ $match: { isFeatured: false } })
+  }
+
+  pipelines.push({
+    $project: {
+      id: "$_id",
+      title: 1,
+      slug: 1,
+      desc: 1,
+      tags: 1,
+      author: 1,
+      date: "$createdAt",
+      banner: 1,
+    },
+  })
+
+  const query = await Blog.aggregate(pipelines)
+
+  return aggregationValidator(query, z.array(blogPreviewSchema))
 }

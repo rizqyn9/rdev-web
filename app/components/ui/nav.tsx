@@ -12,11 +12,11 @@ const NAV_ITEM = [
   },
   {
     label: "Work",
-    to: "#work",
+    to: "/#work",
   },
   {
     label: "About",
-    to: "#about-me",
+    to: "/#about-me",
   },
 ]
 

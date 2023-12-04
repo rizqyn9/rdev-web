@@ -5,6 +5,7 @@ import mongoose, {
   type InferSchemaType,
   type PipelineStage,
 } from "mongoose"
+import { z } from "zod"
 
 let db: typeof mongoose
 
@@ -16,13 +17,13 @@ async function connect() {
   if (db) return db
 
   if (process.env.NODE_ENV === "production") {
-    db = await mongoose.connect(process.env.MONGO_URI as string)
+    db = await mongoose.connect(process.env.MONGO_URI)
   } else {
     // in development, need to store the db connection in a global variable
     // this is because the dev server purges the require cache on every request
     // and will cause multiple connections to be made
     if (!global.__db) {
-      global.__db = await mongoose.connect(process.env.MONGO_URI as string)
+      global.__db = await mongoose.connect(process.env.MONGO_URI)
     }
     db = global.__db
   }
@@ -64,4 +65,24 @@ declare global {
    */
 
   type Hydrated<Schema> = HydratedDocument<InferSchemaType<Schema>>
+}
+
+/**
+ * @example
+ * function controller(data: []) {
+ *   const { example } = aggregationValidator(
+ *    req.body,
+ *    z.object({
+ *      example: z.string(),
+ *    })
+ *  )
+ * }
+ */
+export function aggregationValidator<TSchema extends z.ZodTypeAny>(
+  data: unknown,
+  schema: TSchema,
+  message: string | null = null
+) {
+  const validated = schema.parse(data)
+  return validated as z.infer<typeof schema>
 }
