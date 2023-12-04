@@ -10,8 +10,26 @@ import { useForm, conform } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
 import { Form, useActionData } from "@remix-run/react"
 import { blogDto, createBlog } from "~/services/blog/api.ts"
+import { z } from "zod"
 
 const schema = blogDto
+  .merge(
+    z.object({
+      tags: z.string(),
+    })
+  )
+  .transform((a) => {
+    const tags = a.tags
+      .split(/,/)
+      .map((x) => x.trim())
+      .filter(Boolean)
+
+    console.log({ tags })
+    return {
+      ...a,
+      tags,
+    }
+  })
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
@@ -21,6 +39,7 @@ export async function action({ request }: ActionFunctionArgs) {
     throw new Error("Error")
   }
 
+  console.log({ a: submission.value })
   const blog = await createBlog(submission.value)
 
   return json({
@@ -31,20 +50,29 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function () {
   const actionData = useActionData<typeof action>()
-  const [value, setValue] = useState<string>("Console")
-  const [form, { slug, content }] = useForm({
+  const [value, setValue] = useState<string>("This is markdown")
+  const [form, field] = useForm({
     onValidate({ formData }) {
-      return parse(formData, { schema })
+      const validated = parse(formData, { schema })
+      console.log({ validated })
+      return validated
+    },
+    defaultValue: {
+      tags: [],
     },
   })
 
+  const { slug, content, title, tags } = field
+
   return (
-    <div className="pt-[5rem] px-5 max-w-2xl mx-auto">
+    <div className="">
       <p className="my-5">Editor</p>
       {actionData?.success && (
         <pre>{JSON.stringify(actionData.blog, null, 2)}</pre>
       )}
       <Form className="flex flex-col gap-5" method="POST" {...form.props}>
+        <Input placeholder="Title" {...conform.input(title)} />
+        <Input placeholder="Tags" {...conform.input(tags)} />
         <Input placeholder="Slug" {...conform.input(slug)} />
         <Input type="hidden" {...conform.input(content)} value={value} />
         <div>

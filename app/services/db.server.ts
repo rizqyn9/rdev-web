@@ -1,4 +1,10 @@
-import mongoose from "mongoose"
+import mongoose, {
+  Schema,
+  model,
+  type HydratedDocument,
+  type InferSchemaType,
+  type PipelineStage,
+} from "mongoose"
 
 let db: typeof mongoose
 
@@ -28,4 +34,34 @@ async function checkConnection() {
   return mongoose.connection.readyState
 }
 
-export { mongoose, connect, checkConnection }
+function getModel<TSchema extends Schema = any>(name: string, schema: TSchema) {
+  function connectModel() {
+    return model(name, schema, name)
+  }
+
+  type Model = ReturnType<typeof connectModel>
+
+  return ((global.__db ?? null)?.models[name] as Model) || connectModel()
+}
+
+export { mongoose, connect, checkConnection, getModel }
+
+type ReturnCreatePipelines = {
+  pipelines: PipelineStage[]
+}
+
+export function createPipelines(): ReturnCreatePipelines {
+  const pipelines: PipelineStage[] = []
+  return {
+    pipelines,
+  }
+}
+
+declare global {
+  /**
+   * @example
+   * type C = Hydrated<typeof gameCommunitySchema>
+   */
+
+  type Hydrated<Schema> = HydratedDocument<InferSchemaType<Schema>>
+}
