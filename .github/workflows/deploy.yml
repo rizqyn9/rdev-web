@@ -1,0 +1,17 @@
+name: Deploy to homelab
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    name: 🚀 Deploy to my-lab
+    runs-on: my-lab
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Run script
+        run: |
+          pwd

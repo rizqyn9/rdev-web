@@ -1,11 +1,13 @@
-name: 🚀 Deploy
+name: 🚀 Deploy Fly.io
 
 on:
-  push:
-    branches:
-      - main
-      - dev
-  pull_request:
+  workflow_dispatch:
+
+  # push:
+  #   branches:
+  #     - main
+  #     - dev
+  # pull_request:
 
 jobs:
   deploy:
