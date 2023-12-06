@@ -79,6 +79,7 @@ export default function App() {
             async
             src="https://us.umami.is/script.js"
             data-website-id="93bcd5d0-5695-456e-893c-fd77b4c7aba6"
+            nonce={nonce}
           />
         )}
       </head>
