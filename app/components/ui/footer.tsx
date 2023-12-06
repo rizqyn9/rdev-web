@@ -1,12 +1,12 @@
 import { Link } from "@remix-run/react"
 import { Icon } from "~/components/ui/icon.tsx"
-import { Layout } from "~/components/ui/layout.tsx"
 import { NAV_ITEM } from "~/components/ui/nav.tsx"
+import { Section } from "./layout.tsx"
 
-function Footer() {
+export function Footer() {
   return (
-    <Layout>
-      <footer className="grid grid-cols-2 md:grid-cols-6 space-y-8 place-content-start">
+    <footer className="border-t-2 mt-14">
+      <Section className="grid mt-8 grid-cols-2 md:grid-cols-6 space-y-8 place-content-start pb-8">
         <div className="col-span-2 flex flex-col gap-4">
           <h2 className="text-4xl font-bold">Rizqy P. A. N.</h2>
           <p>Full stack developer</p>
@@ -27,10 +27,10 @@ function Footer() {
             ))}
           </ul>
         </div>
-      </footer>
-    </Layout>
+      </Section>
+      <Section className="text-center italic text-slate-400">
+        <p>Copyright rdev 2023</p>
+      </Section>
+    </footer>
   )
-}
-export default function () {
-  return <Footer />
 }

@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 import { Icon } from "~/components/ui/icon.tsx"
-import { Layout } from "~/components/ui/layout.tsx"
+import { Layout, Section } from "~/components/ui/layout.tsx"
 import { blogList } from "~/services/blog/api.ts"
 import { BlogPreview } from "~/services/blog/schema.ts"
 import clsxm from "~/utils/clsxm.tsx"
@@ -28,18 +28,22 @@ export default function () {
 
   return (
     <Layout>
-      <div className="mb-5 flex flex-col gap-4">
+      <Section>
+        <div className="mb-5 flex flex-col gap-4">
+          <h2 className="text-4xl font-bold">Featured Post</h2>
+          {featuredBlogs.map((blog) => (
+            <CardPost isFeatured to="/blog/test" key={blog.id} {...blog} />
+          ))}
+        </div>
+      </Section>
+      <Section>
         <h2 className="text-4xl font-bold">Featured Post</h2>
-        {featuredBlogs.map((blog) => (
-          <CardPost isFeatured to="/blog/test" key={blog.id} {...blog} />
-        ))}
-      </div>
-      <h2 className="text-4xl font-bold">Featured Post</h2>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-20 lg:mb-40">
-        {blogs.map((x, idx) => (
-          <CardPost key={idx} to={getBlogDetailsUrl("test")} {...x} />
-        ))}
-      </div>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-20 lg:mb-40">
+          {blogs.map((x, idx) => (
+            <CardPost key={idx} to={getBlogDetailsUrl("test")} {...x} />
+          ))}
+        </div>
+      </Section>
     </Layout>
   )
 }

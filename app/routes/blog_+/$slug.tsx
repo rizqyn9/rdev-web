@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node"
+import { HeadersFunction, MetaFunction, json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { Tags } from "~/components/ui/tag/index.tsx"
 import { compileMdx } from "~/utils/compile-mdx.server.ts"
@@ -7,9 +7,15 @@ import fs from "fs-extra"
 import { ButtonBack } from "~/components/ui/button.tsx"
 import { Grid } from "~/components/ui/grid.tsx"
 import { dateFormatEn } from "../../utils/date.ts"
+import { Section } from "~/components/ui/layout.tsx"
+import { reuseUsefulLoaderHeaders } from "~/utils/headers.server.ts"
+import { getSocialMetas } from "~/utils/seo.ts"
+import { RootLoaderType } from "~/root.tsx"
+import { getUrl } from "~/utils/misc.ts"
 
 const MOCK = {
-  title: "The Jokers in a Deck of cards - on the ever-evolving Generalist Role",
+  title:
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, provident.",
   createdAt: dateFormatEn(new Date(), "full"),
   like: 100,
   view: 2000,
@@ -20,10 +26,10 @@ const MOCK = {
   },
 }
 
-export async function loader({}) {
+export async function loader() {
   const a = await fs.readFile(process.cwd() + "/test.mdx", "utf-8")
-  const code = await compileMdx(a)
-  // console.log(code.matter)
+  const { code, headings } = await compileMdx(a)
+
   return json({
     banner: MOCK.banner,
     title: MOCK.title,
@@ -31,11 +37,33 @@ export async function loader({}) {
       code,
       like: MOCK.like,
       view: MOCK.view,
+      headings,
     },
     categories: MOCK.categories,
     createdAt: MOCK.createdAt,
     createdBy: "Rizqy Prastya Ari Nugroho",
   })
+}
+
+export const headers: HeadersFunction = reuseUsefulLoaderHeaders
+
+export const meta: MetaFunction<typeof loader, { root: RootLoaderType }> = ({
+  data,
+  matches,
+}) => {
+  const requestInfo = matches.find((m) => m.id === "root")?.data.requestInfo
+  if (!data)
+    return [
+      { title: "Not found" },
+      { description: "You landed on a page that could not find 😢" },
+    ]
+
+  return [
+    ...getSocialMetas({
+      url: getUrl(requestInfo),
+      title: data.title,
+    }),
+  ]
 }
 
 export default function BlogPage() {
@@ -46,7 +74,7 @@ export default function BlogPage() {
   const Component = useMdxComponent(page.code.code)
 
   return (
-    <div className="relative mx-auto mt-20 col-span-full max-w-xl">
+    <Section>
       <ButtonBack to="/blog" />
       {/* Title */}
       <Grid as="header" className="mt-5 gap-y-5">
@@ -68,6 +96,6 @@ export default function BlogPage() {
       <div className="mdx prose w-full max-w-none">
         <Component />
       </div>
-    </div>
+    </Section>
   )
 }

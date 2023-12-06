@@ -1,11 +1,9 @@
-import { Link } from "@remix-run/react"
+import { Link, useLocation } from "@remix-run/react"
 import { AnimatedTextTemplate1 } from "../typography/animated.tsx"
+import clsxm from "~/utils/clsxm.tsx"
+import { Section } from "./layout.tsx"
 
-const NAV_ITEM = [
-  {
-    label: "Home",
-    to: "/",
-  },
+export const NAV_ITEM = [
   {
     label: "Blog",
     to: "/blog",
@@ -16,7 +14,7 @@ const NAV_ITEM = [
   },
   {
     label: "About",
-    to: "/#about-me",
+    to: "/about",
   },
 ]
 
@@ -65,13 +63,22 @@ function NavButton() {
 }
 
 export function Nav() {
+  const path = useLocation()
+
   return (
-    <nav className="bg-slate-950 fixed top-0 z-50 left-0 right-0">
-      <div className="container px-4 flex justify-between pb-1 md:pb-4 pt-2 md:pt-7 items-center">
-        <NavRdev />
-        <NavList />
-        {/* <NavButton /> */}
-      </div>
+    <nav
+      className={clsxm([
+        "bg-slate-950 fixed top-0 z-50 left-0 right-0",
+        path.pathname != "/" && "backdrop-blur bg-opacity-30",
+      ])}
+    >
+      <Section>
+        <div className="flex justify-between pb-1 md:pb-4 pt-2 md:pt-7 items-center">
+          <NavRdev />
+          <NavList />
+          {/* <NavButton /> */}
+        </div>
+      </Section>
     </nav>
   )
 }

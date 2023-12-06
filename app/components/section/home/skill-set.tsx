@@ -102,7 +102,7 @@ export function SkillSet() {
             }}
           >
             {images[1].map((x, idx) => {
-              return <img key={idx} src={x} alt={x} />
+              return <img key={idx} src={x} alt={x} crossOrigin="anonymous" />
             })}
           </motion.div>
         </div>

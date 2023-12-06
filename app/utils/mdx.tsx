@@ -2,6 +2,7 @@ import React from "react"
 import * as mdxBundler from "mdx-bundler/client/index.js"
 import { Banner } from "../components/ui/banner/index.tsx"
 import { AnchorOrLink } from "~/components/ui/anchor-or-link.tsx"
+import { Pre } from "~/components/ui/pre.tsx"
 
 export async function getHeadings(source: string) {
   // Get each line individually, and filter out anything that
@@ -25,6 +26,11 @@ export async function getHeadings(source: string) {
   return headingLines
 }
 
+const listComponents = {
+  a: AnchorOrLink,
+  pre: Pre,
+}
+
 /**
  * This should be rendered within a useMemo
  * @param code the code to get the component from
@@ -38,10 +44,10 @@ function getMdxComponent(code: string) {
   }: Parameters<typeof Component>["0"]) {
     return (
       <Component
+        // @ts-expect-error
         components={{
           Banner,
-          // @ts-expect-error
-          a: AnchorOrLink,
+          ...listComponents,
           ...components,
         }}
         {...rest}
@@ -53,24 +59,7 @@ function getMdxComponent(code: string) {
 
 export function useMdxComponent(code: string) {
   return React.useMemo(() => {
-    // if (mdxComponentCache.has(code)) {
-    //   return mdxComponentCache.get(code)!
-    // }
     const component = getMdxComponent(code)
-    // const a = React.Children.toArray(component).map(console.log)
-    // .filter(
-    //   (child: any) =>
-    //     child.props?.mdxType && ["h2", "h3"].includes(child.props.mdxType)
-    // )
-    // .map((child: any) => ({
-    //   url: "#" + child.props.id,
-    //   depth:
-    //     (child.props?.mdxType &&
-    //       parseInt(child.props.mdxType.replace("h", ""), 0)) ??
-    //     0,
-    //   text: child.props.children,
-    // }))
-    // console.log({ a })
     return component
   }, [code])
 }

@@ -1,5 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle"
-import type { LinksFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node"
 import {
   Links,
   LiveReload,
@@ -15,6 +15,7 @@ import appStyleSheetUrl from "./styles/app.css"
 import { useNonce } from "./utils/nonce-provider.ts"
 import { Nav } from "./components/ui/nav.tsx"
 import { getEnv } from "./utils/env.server.ts"
+import { getDomainUrl } from "./utils/misc.ts"
 
 export const links: LinksFunction = () => {
   return [
@@ -51,11 +52,17 @@ export const links: LinksFunction = () => {
   ].filter(Boolean)
 }
 
-export function loader() {
+export function loader({ request }: LoaderFunctionArgs) {
   return {
     env: getEnv(),
+    requestInfo: {
+      origin: getDomainUrl(request),
+      path: new URL(request.url).pathname,
+    },
   }
 }
+
+export type RootLoaderType = typeof loader
 
 export default function App() {
   const data = useLoaderData<typeof loader>()
@@ -67,6 +74,13 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Links />
+        {process.env.NODE_ENV !== "development" && (
+          <script
+            async
+            src="https://us.umami.is/script.js"
+            data-website-id="93bcd5d0-5695-456e-893c-fd77b4c7aba6"
+          />
+        )}
       </head>
       <body className="bg-slate-950 font-normal text-white font-sans">
         <Nav />
