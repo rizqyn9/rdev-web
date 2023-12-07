@@ -41,23 +41,23 @@ let devBuild = build
 
 const app = express()
 
-const getHost = (req: { get: (key: string) => string | undefined }) =>
-  req.get("X-Forwarded-Host") ?? req.get("host") ?? ""
+// const getHost = (req: { get: (key: string) => string | undefined }) =>
+//   req.get("X-Forwarded-Host") ?? req.get("host") ?? ""
 
 // fly is our proxy
 app.set("trust proxy", true)
 
 // ensure HTTPS only (X-Forwarded-Proto comes from Fly)
-app.use((req, res, next) => {
-  const proto = req.get("X-Forwarded-Proto")
-  const host = getHost(req)
-  if (proto === "http") {
-    res.set("X-Forwarded-Proto", "https")
-    res.redirect(`https://${host}${req.originalUrl}`)
-    return
-  }
-  next()
-})
+// app.use((req, res, next) => {
+//   const proto = req.get("X-Forwarded-Proto")
+//   const host = getHost(req)
+//   if (proto === "http") {
+//     res.set("X-Forwarded-Proto", "https")
+//     res.redirect(`https://${host}${req.originalUrl}`)
+//     return
+//   }
+//   next()
+// })
 
 // no ending slashes for SEO reasons
 // https://github.com/epicweb-dev/epic-stack/discussions/108

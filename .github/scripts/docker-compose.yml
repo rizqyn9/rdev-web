@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  rdev-blog:
+    image: "ghcr.io/rizqyn9/rdev-web:main"
+    container_name: "rdev-blog"
+    restart: always
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.blog.rule=Host(`blog.ke-gap-bocil.my.id`)"
+
+  whoami:
+    image: "traefik/whoami"
+    env_file:
+      - .env
+    container_name: "simple-service"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    driver: bridge
