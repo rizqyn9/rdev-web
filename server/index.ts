@@ -132,10 +132,12 @@ app.use(
         ].filter(Boolean),
         "font-src": ["'self'"],
         "frame-src": ["'self'"],
-        // "img-src": ["'self'", "data:"],
+        // Image source allow
+        "img-src": ["'self'", "data:", "images.unsplash.com", "ik.imagekit.io"],
         "script-src": [
           "'strict-dynamic'",
           "'self'",
+          "'unsafe-eval'",
           // @ts-expect-error
           (_, res) => `'nonce-${res.locals.cspNonce}'`,
         ],
