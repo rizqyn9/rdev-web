@@ -10,8 +10,8 @@ on:
   # pull_request:
 
 jobs:
-  deploy:
-    name: 🚀 Deploy
+  build:
+    name: 🚀 Build
     runs-on: ubuntu-latest
 
     steps:
