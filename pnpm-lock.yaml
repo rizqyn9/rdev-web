@@ -158,6 +158,9 @@ dependencies:
   isbot:
     specifier: ^3.6.8
     version: 3.7.1
+  lru-cache:
+    specifier: ^10.1.0
+    version: 10.1.0
   lucide-react:
     specifier: ^0.293.0
     version: 0.293.0(react@18.2.0)

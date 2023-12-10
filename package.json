@@ -81,6 +81,7 @@
     "ioredis": "^5.2.4",
     "is-ip": "^5.0.1",
     "isbot": "^3.6.8",
+    "lru-cache": "^10.1.0",
     "lucide-react": "^0.293.0",
     "mdx-bundler": "^10.0.1",
     "mongoose": "^8.0.1",

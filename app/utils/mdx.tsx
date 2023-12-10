@@ -1,4 +1,5 @@
 import React from "react"
+import { LRUCache } from "lru-cache"
 import * as mdxBundler from "mdx-bundler/client/index.js"
 import { Banner } from "../components/ui/banner/index.tsx"
 import { AnchorOrLink } from "~/components/ui/anchor-or-link.tsx"
@@ -57,9 +58,22 @@ function getMdxComponent(code: string) {
   return RdevMdxComponents
 }
 
+// This exists so we don't have to call new Function for the given code
+// for every request for a given blog post/mdx file.
+const mdxComponentCache = new LRUCache<
+  string,
+  ReturnType<typeof getMdxComponent>
+>({
+  max: 1000,
+})
+
 export function useMdxComponent(code: string) {
   return React.useMemo(() => {
+    if (mdxComponentCache.has(code)) {
+      return mdxComponentCache.get(code)!
+    }
     const component = getMdxComponent(code)
+    mdxComponentCache.set(code, component)
     return component
   }, [code])
 }
