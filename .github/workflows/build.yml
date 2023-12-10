@@ -41,6 +41,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  deploy:
-    name: Deploy to homelab
-    uses: rizqyn9/homelab/.github/workflows/deploy-rdev-blog.yml@main
+  # deploy:
+  #   name: Deploy to homelab
+  #   uses: rizqyn9/homelab/.github/workflows/deploy-rdev-blog.yml@main
