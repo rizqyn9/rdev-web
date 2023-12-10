@@ -10,13 +10,11 @@ import { renderToPipeableStream } from "react-dom/server"
 import { makeTimings } from "./utils/timing.server.ts"
 import { NonceProvider } from "./utils/nonce-provider.ts"
 import { getEnv, init } from "./utils/env.server.ts"
-import { connect } from "./services/db.server.ts"
 
 const ABORT_DELAY = 5_000
 
 init()
 global.ENV = getEnv()
-connect()
 
 type DocRequestArgs = Parameters<HandleDocumentRequestFunction>
 
@@ -32,6 +30,10 @@ export default function handleRequest(...args: DocRequestArgs) {
     ? "onAllReady"
     : "onShellReady"
 
+  if (process.env.NODE_ENV !== "production") {
+    responseHeaders.set("Cache-Control", "no-store")
+  }
+
   const nonce = String(loadContext.cspNonce) ?? undefined
 
   return new Promise(async (resolve, reject) => {
@@ -42,7 +44,11 @@ export default function handleRequest(...args: DocRequestArgs) {
 
     const { pipe, abort } = renderToPipeableStream(
       <NonceProvider value={nonce}>
-        <RemixServer context={remixContext} url={request.url} />
+        <RemixServer
+          context={remixContext}
+          url={request.url}
+          abortDelay={ABORT_DELAY}
+        />
       </NonceProvider>,
       {
         [callbackName]: () => {

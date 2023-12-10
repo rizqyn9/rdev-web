@@ -1,9 +1,10 @@
 import { Outlet } from "@remix-run/react"
+import { Layout } from "~/components/ui/layout.tsx"
 
 export default function () {
   return (
-    <div className="pt-[5rem] px-5 max-w-2xl mx-auto">
+    <Layout>
       <Outlet />
-    </div>
+    </Layout>
   )
 }

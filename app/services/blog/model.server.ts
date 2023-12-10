@@ -28,18 +28,18 @@ const authorSchema = new Schema(
 
 const schema = new Schema(
   {
-    title: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
-    content: { type: String, default: "" },
-    view: { type: Number, default: 0 },
-    like: { type: Number, default: 0 },
-    tags: { type: [String], default: [] },
+    title: { type: String, required: true },
     desc: { type: String, default: "" },
-    isFeatured: { type: Boolean, default: false },
     banner: {
       type: bannerSchema,
       default: {},
     },
+    content: { type: String, default: "" },
+    tags: { type: [String], default: [] },
+    isFeatured: { type: Boolean, default: false },
+    view: { type: Number, default: 0 },
+    like: { type: Number, default: 0 },
     author: {
       type: authorSchema,
       default: {},

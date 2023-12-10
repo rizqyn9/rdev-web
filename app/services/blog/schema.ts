@@ -1,6 +1,27 @@
 import { z } from "zod"
 import { dateFormatEn } from "~/utils/date.ts"
 
+export const blogDto = z.object({
+  slug: z.string(),
+  title: z.string(),
+  desc: z.string(),
+  banner: z.object({
+    url: z.string(),
+    title: z.string(),
+  }),
+  content: z.string(),
+  tags: z.array(z.string()),
+  isFeatured: z.boolean(),
+  view: z.number(),
+  like: z.number(),
+  author: z.object({
+    name: z.string(),
+    avatar: z.string(),
+  }),
+})
+
+export type BlogDto = z.infer<typeof blogDto>
+
 export const blogPreviewSchema = z.object({
   id: z.coerce.string(),
   title: z.string(),

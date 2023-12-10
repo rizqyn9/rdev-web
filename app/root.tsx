@@ -1,5 +1,9 @@
 import { cssBundleHref } from "@remix-run/css-bundle"
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node"
+import {
+  json,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+} from "@remix-run/node"
 import {
   Links,
   LiveReload,
@@ -16,6 +20,9 @@ import { useNonce } from "./utils/nonce-provider.ts"
 import { Nav } from "./components/ui/nav.tsx"
 import { getEnv } from "./utils/env.server.ts"
 import { getDomainUrl } from "./utils/misc.ts"
+import { getToast } from "./utils/toast.server.ts"
+import { combineHeaders } from "./utils/headers.server.ts"
+import { EpicToaster } from "./components/toaster.tsx"
 
 export const links: LinksFunction = () => {
   return [
@@ -52,14 +59,25 @@ export const links: LinksFunction = () => {
   ].filter(Boolean)
 }
 
-export function loader({ request }: LoaderFunctionArgs) {
-  return {
-    env: getEnv(),
-    requestInfo: {
-      origin: getDomainUrl(request),
-      path: new URL(request.url).pathname,
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { toast, headers: toastHeaders } = await getToast(request)
+  return json(
+    {
+      toast,
+      env: getEnv(),
+      requestInfo: {
+        origin: getDomainUrl(request),
+        path: new URL(request.url).pathname,
+      },
     },
-  }
+    {
+      headers: combineHeaders(
+        // { 'Server-Timing': timings.toString() },
+        toastHeaders
+        // csrfCookieHeader ? { 'set-cookie': csrfCookieHeader } : null,
+      ),
+    }
+  )
 }
 
 export type RootLoaderType = typeof loader
@@ -85,6 +103,7 @@ export default function App() {
       </head>
       <body className="bg-slate-950 font-normal text-white font-sans">
         <Nav />
+        <EpicToaster toast={data.toast} />
         <Outlet />
         <ScrollRestoration nonce={nonce} />
         <script

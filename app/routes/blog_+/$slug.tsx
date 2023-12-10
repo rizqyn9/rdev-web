@@ -1,9 +1,12 @@
-import { HeadersFunction, MetaFunction, json } from "@remix-run/node"
+import {
+  HeadersFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+  json,
+} from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { Tags } from "~/components/ui/tag/index.tsx"
-import { compileMdx } from "~/utils/compile-mdx.server.ts"
 import { useMdxComponent } from "~/utils/mdx.tsx"
-import fs from "fs-extra"
 import { ButtonBack } from "~/components/ui/button.tsx"
 import { Grid } from "~/components/ui/grid.tsx"
 import { dateFormatEn } from "../../utils/date.ts"
@@ -12,6 +15,7 @@ import { reuseUsefulLoaderHeaders } from "~/utils/headers.server.ts"
 import { getSocialMetas } from "~/utils/seo.ts"
 import { RootLoaderType } from "~/root.tsx"
 import { getUrl } from "~/utils/misc.ts"
+import { findBlogBySlug } from "~/utils/blog/blog.server.ts"
 
 const MOCK = {
   title:
@@ -26,22 +30,25 @@ const MOCK = {
   },
 }
 
-export async function loader() {
-  const a = await fs.readFile(process.cwd() + "/test.mdx", "utf-8")
-  const { code, headings } = await compileMdx(a)
+export async function loader({ params }: LoaderFunctionArgs) {
+  const slug = params.slug as string
+
+  const { code, headings, title, banner, like, view, categories, description } =
+    await findBlogBySlug(slug)
 
   return json({
-    banner: MOCK.banner,
-    title: MOCK.title,
+    banner,
+    title,
     page: {
       code,
-      like: MOCK.like,
-      view: MOCK.view,
+      like,
+      view,
       headings,
     },
-    categories: MOCK.categories,
+    categories,
     createdAt: MOCK.createdAt,
     createdBy: "Rizqy Prastya Ari Nugroho",
+    description,
   })
 }
 
@@ -62,6 +69,8 @@ export const meta: MetaFunction<typeof loader, { root: RootLoaderType }> = ({
     ...getSocialMetas({
       url: getUrl(requestInfo),
       title: data.title,
+      description:
+        data.description ?? "You landed on a page that could not find 😢",
     }),
   ]
 }

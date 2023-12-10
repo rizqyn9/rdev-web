@@ -11,6 +11,7 @@ const schema = z.object({
   CLOUDINARY_NAME: z.string().min(1),
   CLOUDINARY_API_KEY: z.string().min(1),
   CLOUDINARY_API_SECRET: z.string().min(1),
+  REDIS_URI: z.string().min(1),
 })
 
 declare global {

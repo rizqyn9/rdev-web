@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "app/utils/cms.server"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
@@ -11,6 +11,7 @@
     "target": "ES2022",
     "strict": true,
     "noImplicitAny": true,
+    "types": ["node"],
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",

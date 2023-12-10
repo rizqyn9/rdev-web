@@ -19,8 +19,10 @@ import rateLimit from "express-rate-limit"
 import getPort, { portNumbers } from "get-port"
 import helmet from "helmet"
 import morgan from "morgan"
+import { connect } from "~/services/db.server.ts"
 
 installGlobals()
+connect()
 
 const MODE = process.env.NODE_ENV
 

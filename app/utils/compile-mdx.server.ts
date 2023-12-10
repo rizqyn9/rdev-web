@@ -1,6 +1,7 @@
 import { bundleMDX } from "mdx-bundler"
 import remarkEmbedder, { type TransformerInfo } from "@remark-embedder/core"
 import oembedTransformer from "@remark-embedder/transformer-oembed"
+import fs from "fs-extra"
 import type * as H from "hast"
 import type * as U from "unified"
 import gfm from "remark-gfm"
@@ -8,6 +9,8 @@ import { remarkCodeBlocksShiki } from "@kentcdodds/md-temp"
 import { visit } from "unist-util-visit"
 import remarkSlug from "remark-slug"
 import remarkAutolinkHeadings from "remark-autolink-headings"
+import { cachified } from "cachified"
+import { redis, redisCacheAdapter } from "~/services/redis.server.ts"
 
 const rehypePlugins: U.PluggableList = [trimCodeBlocks, remarkCodeBlocksShiki]
 const remarkPlugins: U.PluggableList = [
@@ -75,6 +78,39 @@ export async function compileMdx(html: string) {
     code,
     headings,
   }
+}
+
+export type ReturnCompiledMdx = Awaited<ReturnType<typeof compileMdx>>
+
+async function getMdxCache(slug: string) {
+  return cachified({
+    cache: redisCacheAdapter(redis),
+    forceFresh: false,
+    key: `slug-${slug}`,
+    async getFreshValue() {
+      const a = await fs.readFile(process.cwd() + slug, "utf-8")
+      console.log({ a })
+      const { code, headings } = await compileMdx(a)
+      return { code, headings }
+    },
+  })
+}
+
+async function getFreshValue(slug: string) {
+  const a = await fs.readFile(process.cwd() + slug, "utf-8")
+  console.log("Fresh")
+  const { code, headings } = await compileMdx(a)
+  return { code, headings }
+}
+
+export async function getMdx(slug: string) {
+  // console.time("speed")
+  // const { code, headings } = await getFreshValue(slug)
+  // console.timeEnd("speed")
+  console.time("speed-1")
+  const { code, headings } = await getMdxCache(slug)
+  console.timeEnd("speed-1")
+  return { code, headings }
 }
 
 function handleEmbedderError({ url }: { url: string }) {

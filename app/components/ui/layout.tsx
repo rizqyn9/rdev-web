@@ -6,7 +6,7 @@ type LayoutProps = {} & JSX.IntrinsicElements["div"]
 export function Layout(props: LayoutProps) {
   const { className, children, ...rest } = props
   return (
-    <div className={clsxm("relative mt-12 md:mt-24")} {...rest}>
+    <div className={clsxm("relative mt-14 md:mt-24", className)} {...rest}>
       {children}
       <Footer />
     </div>
@@ -18,7 +18,7 @@ export function Section(props: SectionProps) {
   const { className, children, ...rest } = props
   return (
     <section className={clsxm("mx-[10vw] relative", className)} {...rest}>
-      {children}
+      <div className="max-w-7xl mx-auto">{children}</div>
     </section>
   )
 }
