@@ -1,7 +1,6 @@
 import { type Config } from "tailwindcss"
 import typography from "@tailwindcss/typography"
 import aspectRatio from "@tailwindcss/aspect-ratio"
-import lineClamp from "@tailwindcss/line-clamp"
 import tailwindcssAnimate from "tailwindcss-animate"
 import scrollbar from "tailwind-scrollbar"
 
@@ -95,5 +94,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate, typography, aspectRatio, scrollbar, lineClamp],
+  plugins: [tailwindcssAnimate, typography, aspectRatio, scrollbar],
 } satisfies Config

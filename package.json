@@ -52,7 +52,6 @@
     "@remix-run/serve": "^2.3.1",
     "@resvg/resvg-js": "^2.6.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.10",
     "@total-typescript/ts-reset": "^0.5.1",
     "@uiw/codemirror-theme-atomone": "^4.21.21",

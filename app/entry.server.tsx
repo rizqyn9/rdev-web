@@ -10,11 +10,14 @@ import { renderToPipeableStream } from "react-dom/server"
 import { makeTimings } from "./utils/timing.server.ts"
 import { NonceProvider } from "./utils/nonce-provider.ts"
 import { getEnv, init } from "./utils/env.server.ts"
+import { connect } from "./services/db.server.ts"
 
 const ABORT_DELAY = 5_000
 
 init()
 global.ENV = getEnv()
+
+await connect()
 
 type DocRequestArgs = Parameters<HandleDocumentRequestFunction>
 
