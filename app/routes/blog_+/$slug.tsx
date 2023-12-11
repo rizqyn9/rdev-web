@@ -107,10 +107,11 @@ export default function BlogPage() {
         readTime="3 minutes"
         title={title}
       />
-      <Section>
-        <div className="mdx prose w-full max-w-none">
+      <Section className="grid grid-cols-5">
+        <div className="mdx prose w-full max-w-none md:col-span-4 col-span-full">
           <Component />
         </div>
+        <div className="md:col-span-1">{JSON.stringify(page.headings)}</div>
       </Section>
     </>
   )
