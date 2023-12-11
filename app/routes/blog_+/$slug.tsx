@@ -5,10 +5,8 @@ import {
   json,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { Tags } from "~/components/ui/tag/index.tsx"
 import { useMdxComponent } from "~/utils/mdx.tsx"
 import { ButtonBack } from "~/components/ui/button.tsx"
-import { Grid } from "~/components/ui/grid.tsx"
 import { dateFormatEn } from "../../utils/date.ts"
 import { Section } from "~/components/ui/layout.tsx"
 import { reuseUsefulLoaderHeaders } from "~/utils/headers.server.ts"
@@ -16,6 +14,7 @@ import { getSocialMetas } from "~/utils/seo.ts"
 import { RootLoaderType } from "~/root.tsx"
 import { getUrl } from "~/utils/misc.ts"
 import { findBlogBySlug } from "~/utils/blog/blog.server.ts"
+import { ContentHeader } from "~/components/ui/post/header.tsx"
 
 const MOCK = {
   title:
@@ -33,8 +32,17 @@ const MOCK = {
 export async function loader({ params }: LoaderFunctionArgs) {
   const slug = params.slug as string
 
-  const { code, headings, title, banner, like, view, categories, description } =
-    await findBlogBySlug(slug)
+  const {
+    code,
+    headings,
+    title,
+    banner,
+    like,
+    view,
+    categories,
+    description,
+    author,
+  } = await findBlogBySlug(slug)
 
   return json({
     banner,
@@ -46,6 +54,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
       headings,
     },
     categories,
+    publish: {
+      avatar: author.avatar,
+      name: author.name,
+      at: MOCK.createdAt,
+      initial: "RN",
+    },
     createdAt: MOCK.createdAt,
     createdBy: "Rizqy Prastya Ari Nugroho",
     description,
@@ -78,33 +92,26 @@ export const meta: MetaFunction<typeof loader, { root: RootLoaderType }> = ({
 export default function BlogPage() {
   const loaderData = useLoaderData<typeof loader>()
 
-  const { page, categories, banner, title, createdAt } = loaderData
+  const { page, title, publish, banner } = loaderData
 
   const Component = useMdxComponent(page.code.code)
 
   return (
-    <Section>
-      <ButtonBack to="/blog" />
-      {/* Title */}
-      <Grid as="header" className="mt-5 gap-y-5">
-        <h2 className="text-2xl col-span-full font-bold">{title}</h2>
-        <div className="col-span-full text-white/70">
-          <p>Written on {createdAt}</p>
+    <>
+      <Section className="py-8">
+        <ButtonBack to="/blog" />
+      </Section>
+      <ContentHeader
+        banner={banner.src}
+        publish={publish}
+        readTime="3 minutes"
+        title={title}
+      />
+      <Section>
+        <div className="mdx prose w-full max-w-none">
+          <Component />
         </div>
-        <div className="overflow-hidden col-span-full aspect-w-10 aspect-h-4 w-full">
-          <img
-            className="overflow-hidden rounded-lg object-cover object-center"
-            alt="banner"
-            src={banner.src}
-            title={banner.title}
-            crossOrigin="anonymous"
-          />
-        </div>
-      </Grid>
-      <Tags list={categories} className="gap-4 my-5" />
-      <div className="mdx prose w-full max-w-none">
-        <Component />
-      </div>
-    </Section>
+      </Section>
+    </>
   )
 }

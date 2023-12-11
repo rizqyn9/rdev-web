@@ -30,7 +30,7 @@ export function Footer() {
           </div>
         </div>
       </Section>
-      <Section className="text-center italic text-slate-400">
+      <Section className="text-center italic text-slate-400 pb-4">
         <p>Copyright rdev 2023</p>
       </Section>
     </footer>

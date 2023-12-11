@@ -13,12 +13,17 @@ export function Layout(props: LayoutProps) {
   )
 }
 
-type SectionProps = {} & JSX.IntrinsicElements["section"]
+type SectionProps = {
+  containerClassName?: string
+} & JSX.IntrinsicElements["section"]
 export function Section(props: SectionProps) {
-  const { className, children, ...rest } = props
+  const { className, children, containerClassName, ...rest } = props
   return (
-    <section className={clsxm("mx-[10vw] relative", className)} {...rest}>
-      <div className="max-w-7xl mx-auto">{children}</div>
+    <section
+      className={clsxm("mx-[10vw] relative", containerClassName)}
+      {...rest}
+    >
+      <div className={clsxm("max-w-7xl mx-auto", className)}>{children}</div>
     </section>
   )
 }

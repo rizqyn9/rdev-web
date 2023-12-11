@@ -26,6 +26,7 @@ export async function findBlogBySlug(slug: string) {
 
   return {
     code,
+    author: blog.author,
     headings,
     title: blog.title,
     like: blog.like,
