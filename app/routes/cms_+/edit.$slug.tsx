@@ -12,28 +12,27 @@ import { Input } from "~/components/ui/input.tsx"
 import { Button } from "~/components/ui/button.tsx"
 import { useForm, conform } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
-import { Form } from "@remix-run/react"
+import { Form, useLoaderData } from "@remix-run/react"
 import { Section } from "~/components/ui/layout.tsx"
-import { handleUploadConntent, inputSchema } from "~/utils/cms.ts"
+import { editSchema, handleEditConntent } from "~/utils/cms.ts"
 import { createToastHeaders } from "~/utils/toast.server.ts"
+import { findBlog } from "~/services/blog/api/details.ts"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const slug = params.slug as string
-  if (!slug) {
-    return json({
-      mode: "create",
-    })
-  } else {
-    return json({
-      mode: "edit",
-    })
-  }
+  const blog = await findBlog({ id: slug })
+  return json({
+    mode: "edit",
+    slug,
+    content: blog.content,
+  })
 }
 
-export async function action({ request }: ActionFunctionArgs) {
-  const { blog } = await handleUploadConntent(request)
+export async function action({ request, params }: ActionFunctionArgs) {
+  const id = params.slug as string
+  const { blog } = await handleEditConntent(request, id)
   const toastHeaders = await createToastHeaders({
-    title: "Success created content",
+    title: "Success edit content",
     description: blog.title,
   })
 
@@ -47,48 +46,32 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function () {
-  // const loaderData = useLoaderData<typeof loader>()
-  // const { mode } = loaderData
+  const loaderData = useLoaderData<typeof loader>()
+  const { slug: editedSlug } = loaderData
   // const actionData = useActionData<typeof action>()
-  const [value, setValue] = useState<string>("## This is markdown")
+  const [value, setValue] = useState<string>(loaderData.content)
   const [form, field] = useForm({
     onValidate({ formData }) {
-      const validated = parse(formData, { schema: inputSchema })
+      const validated = parse(formData, { schema: editSchema })
       return validated
+    },
+    defaultValue: {
+      content: loaderData.content,
     },
   })
 
-  const {
-    slug,
-    title,
-    desc,
-    banner_img,
-    banner_title,
-    content,
-    tags,
-    isFeatured,
-  } = field
+  const { content } = field
 
   return (
     <Section>
-      <p className="my-5">Editor</p>
-      {/* {actionData?.success && (
-        <pre>{JSON.stringify(actionData.blog, null, 2)}</pre>
-      )} */}
+      <p className="my-5">Editor {editedSlug}</p>
       <Form
         className="flex flex-col gap-5"
         method="POST"
         encType="multipart/form-data"
         {...form.props}
       >
-        <Input placeholder="Slug" {...conform.input(slug)} />
-        <Input placeholder="Title" {...conform.input(title)} />
-        <Input placeholder="Description" {...conform.input(desc)} />
-        <Input placeholder="Tags" {...conform.input(tags)} />
-        <Input {...conform.input(banner_img, { type: "file" })} />
-        <Input placeholder="Banner title" {...conform.input(banner_title)} />
         <Input type="hidden" {...conform.input(content)} value={value} />
-        <Input {...conform.input(isFeatured, { type: "checkbox" })} />
         <ClientOnly>
           {() => (
             // @ts-expect-error

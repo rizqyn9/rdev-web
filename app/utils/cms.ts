@@ -5,7 +5,7 @@ import {
 } from "@remix-run/node"
 import { z } from "zod"
 import { uploadFileWebToImagekit } from "./imagekit.server.ts"
-import { createBlog } from "~/services/blog/api/create.ts"
+import { createBlog, editBlog } from "~/services/blog/api/create.server.ts"
 
 export const inputSchema = z.object({
   slug: z.string(),
@@ -18,13 +18,12 @@ export const inputSchema = z.object({
   isFeatured: z.boolean().default(false),
 })
 
-export async function handleUploadConntent(request: Request) {
+export async function handleCreateConntent(request: Request) {
   const formData = await unstable_parseMultipartFormData(
     request,
     unstable_createMemoryUploadHandler()
   )
 
-  console.log({ formData })
   const submission = parse(formData, { schema: inputSchema })
 
   if (!submission.value) {
@@ -61,6 +60,35 @@ export async function handleUploadConntent(request: Request) {
       .map((x) => x.trim())
       .filter(Boolean),
     isFeatured,
+  })
+
+  return {
+    blog,
+  }
+}
+
+export const editSchema = z.object({
+  content: z.string(),
+})
+
+export async function handleEditConntent(request: Request, id: string) {
+  const formData = await unstable_parseMultipartFormData(
+    request,
+    unstable_createMemoryUploadHandler()
+  )
+
+  const submission = parse(formData, { schema: editSchema })
+
+  if (!submission.value) {
+    console.log({ err: submission.error })
+    throw new Error("Error")
+  }
+
+  const { content } = submission.value
+
+  const blog = await editBlog({
+    content,
+    id,
   })
 
   return {

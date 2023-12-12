@@ -9,6 +9,7 @@ import { remarkCodeBlocksShiki } from "@kentcdodds/md-temp"
 import { visit } from "unist-util-visit"
 import remarkSlug from "remark-slug"
 import remarkAutolinkHeadings from "remark-autolink-headings"
+import remarkFlexibleCodeTitles from "remark-flexible-code-titles"
 import { cachified } from "cachified"
 import { redis, redisCacheAdapter } from "~/services/redis.server.ts"
 
@@ -60,6 +61,7 @@ export async function compileMdx(html: string) {
     mdxOptions(options) {
       options.remarkPlugins = [
         ...(options?.remarkPlugins ?? []),
+        remarkFlexibleCodeTitles,
         remarkSlug,
         [remarkAutolinkHeadings, { behavior: "wrap" }],
         gfm,
@@ -96,20 +98,8 @@ async function getMdxCache(slug: string) {
   })
 }
 
-async function getFreshValue(slug: string) {
-  const a = await fs.readFile(process.cwd() + slug, "utf-8")
-  console.log("Fresh")
-  const { code, headings } = await compileMdx(a)
-  return { code, headings }
-}
-
 export async function getMdx(slug: string) {
-  // console.time("speed")
-  // const { code, headings } = await getFreshValue(slug)
-  // console.timeEnd("speed")
-  console.time("speed-1")
   const { code, headings } = await getMdxCache(slug)
-  console.timeEnd("speed-1")
   return { code, headings }
 }
 

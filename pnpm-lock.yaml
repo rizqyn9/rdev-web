@@ -203,6 +203,9 @@ dependencies:
   remark-autolink-headings:
     specifier: ^7.0.1
     version: 7.0.1
+  remark-flexible-code-titles:
+    specifier: ^1.1.3
+    version: 1.1.3
   remark-gfm:
     specifier: ^4.0.0
     version: 4.0.0
@@ -9697,6 +9700,13 @@ packages:
       '@types/mdast': 3.0.15
       extend: 3.0.2
       unified: 10.1.2
+      unist-util-visit: 4.1.2
+    dev: false
+
+  /remark-flexible-code-titles@1.1.3:
+    resolution: {integrity: sha512-S/2ThjghwdGJshfgBUOBsbTU6fqYdJTANwCrCUCvKYHQ3L/3II1swP7+vPSO/01wJi0ifGUgwOCDw8l0aqUnbQ==}
+    dependencies:
+      '@types/mdast': 3.0.15
       unist-util-visit: 4.1.2
     dev: false
 

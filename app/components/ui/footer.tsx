@@ -1,7 +1,31 @@
 import { Link } from "@remix-run/react"
-import { Icon } from "~/components/ui/icon.tsx"
+import { Icon, IconName } from "~/components/ui/icon.tsx"
 import { NAV_ITEM } from "~/components/ui/nav.tsx"
 import { Section } from "./layout.tsx"
+
+type Contacts = Array<{
+  to: string
+  icon: IconName
+}>
+
+const CONTACTS: Contacts = [
+  {
+    icon: "github-mark",
+    to: "https://github.com/rizqyn9",
+  },
+  {
+    icon: "rss",
+    to: "/sitemap.xml",
+  },
+  {
+    icon: "telegram",
+    to: "https://t.me/rizqynugroho9",
+  },
+  {
+    icon: "linkedin",
+    to: "https://www.linkedin.com/in/rizqynugroho9",
+  },
+]
 
 export function Footer() {
   return (
@@ -11,11 +35,13 @@ export function Footer() {
           <div className="col-span-2 flex flex-col gap-4">
             <h2 className="text-4xl font-bold">Rizqy P. A. N.</h2>
             <p>Full stack developer</p>
+            <p>Thanks for reading!</p>
             <div className="flex gap-4">
-              <Icon name="github-mark" />
-              <Icon name="rss" />
-              <Icon name="telegram" />
-              <Icon name="linkedin" />
+              {CONTACTS.map((contact) => (
+                <Link to={contact.to} key={contact.icon}>
+                  <Icon name={contact.icon} />
+                </Link>
+              ))}
             </div>
           </div>
           <div className="flex flex-col gap-4 col-span-2">
@@ -31,7 +57,8 @@ export function Footer() {
         </div>
       </Section>
       <Section className="text-center italic text-slate-400 pb-4">
-        <p>Copyright rdev 2023</p>
+        <p>© 2020-present rdev-hub.com</p>
+        <p>All Rights Reserved</p>
       </Section>
     </footer>
   )

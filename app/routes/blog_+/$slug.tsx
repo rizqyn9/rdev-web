@@ -7,7 +7,7 @@ import {
 import { useLoaderData } from "@remix-run/react"
 import { useMdxComponent } from "~/utils/mdx.tsx"
 import { ButtonBack } from "~/components/ui/button.tsx"
-import { dateFormatEn } from "../../utils/date.ts"
+// import { dateFormatEn } from "../../utils/date.ts"
 import { Section } from "~/components/ui/layout.tsx"
 import { reuseUsefulLoaderHeaders } from "~/utils/headers.server.ts"
 import { getSocialMetas } from "~/utils/seo.ts"
@@ -15,19 +15,7 @@ import { RootLoaderType } from "~/root.tsx"
 import { getUrl } from "~/utils/misc.ts"
 import { findBlogBySlug } from "~/utils/blog/blog.server.ts"
 import { ContentHeader } from "~/components/ui/post/header.tsx"
-
-const MOCK = {
-  title:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, provident.",
-  createdAt: dateFormatEn(new Date(), "full"),
-  like: 100,
-  view: 2000,
-  categories: ["React", "NodeJs"].map((x) => ({ text: x })),
-  banner: {
-    title: "Photo",
-    src: "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-  },
-}
+import { PostToc } from "~/components/ui/post/toc.tsx"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const slug = params.slug as string
@@ -42,6 +30,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     categories,
     description,
     author,
+    createdAt,
   } = await findBlogBySlug(slug)
 
   return json({
@@ -57,10 +46,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
     publish: {
       avatar: author.avatar,
       name: author.name,
-      at: MOCK.createdAt,
+      at: createdAt,
       initial: "RN",
     },
-    createdAt: MOCK.createdAt,
+    createdAt,
     createdBy: "Rizqy Prastya Ari Nugroho",
     description,
   })
@@ -107,11 +96,13 @@ export default function BlogPage() {
         readTime="3 minutes"
         title={title}
       />
-      <Section className="grid grid-cols-5">
-        <div className="mdx prose w-full max-w-none md:col-span-4 col-span-full">
+      <Section className="grid grid-cols-7">
+        <div className="mdx prose w-full max-w-none md:col-span-5 col-span-full">
           <Component />
         </div>
-        <div className="md:col-span-1">{JSON.stringify(page.headings)}</div>
+        <div className="md:col-span-2 overflow-hidden max-w-full">
+          <PostToc headings={page.headings} />
+        </div>
       </Section>
     </>
   )

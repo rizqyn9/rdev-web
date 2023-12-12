@@ -17,6 +17,9 @@ export default function () {
   return (
     <Section>
       <h2 className="text-xl font-bold mb-8">List</h2>
+      <Link to="/cms/create">
+        <Button>Add</Button>
+      </Link>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {blogs.map((x) => {
           return (
@@ -34,7 +37,7 @@ export default function () {
                   <p>{x.slug}</p>
                 </div>
                 <div className="ml-auto my-auto">
-                  <Link to={`/cms/edit?id=${x.id}`}>
+                  <Link to={`/cms/edit/${x.id}`}>
                     <Button>Edit</Button>
                   </Link>
                 </div>
