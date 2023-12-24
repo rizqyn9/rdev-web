@@ -15,7 +15,6 @@ import { RootLoaderType } from "~/root.tsx"
 import { getUrl } from "~/utils/misc.ts"
 import { findBlogBySlug } from "~/utils/blog/blog.server.ts"
 import { ContentHeader } from "~/components/ui/post/header.tsx"
-import { PostToc } from "~/components/ui/post/toc.tsx"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const slug = params.slug as string
@@ -96,13 +95,15 @@ export default function BlogPage() {
         readTime="3 minutes"
         title={title}
       />
-      <Section className="grid grid-cols-7">
-        <div className="mdx prose w-full max-w-none md:col-span-5 col-span-full">
+      <Section className="grid">
+        {/* <div className="mdx prose w-full max-w-none md:col-span-5 col-span-full"> */}
+        <div className="mdx prose w-full max-w-none">
           <Component />
         </div>
-        <div className="md:col-span-2 overflow-hidden max-w-full">
+        {/* </div> */}
+        {/* <div className="md:col-span-2 overflow-hidden max-w-full">
           <PostToc headings={page.headings} />
-        </div>
+        </div> */}
       </Section>
     </>
   )

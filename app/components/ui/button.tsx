@@ -65,10 +65,13 @@ export function ButtonBack(props: ButtonBackProps) {
   const { to } = props
   return (
     <Link
-      className="text-sm flex gap-2 transition duration-500 hover:underline hover:underline-offset-4"
+      className="text-sm group flex gap-2 transition duration-500 hover:underline hover:underline-offset-4"
       to={to}
     >
-      <Icon name="arrow-left" />
+      <Icon
+        name="arrow-left"
+        className="group-hover:-translate-x-1 transition-transform group-hover:scale-125 duration-200"
+      />
       <span>Back to home</span>
     </Link>
   )

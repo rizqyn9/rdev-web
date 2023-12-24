@@ -101,6 +101,7 @@
     "remark-slug": "^7.0.1",
     "remix-flat-routes": "^0.6.2",
     "remix-utils": "^7.3.0",
+    "resend": "^2.0.0",
     "satori": "^0.10.11",
     "sonner": "^1.2.4",
     "source-map-support": "^0.5.21",

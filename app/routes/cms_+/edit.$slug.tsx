@@ -7,6 +7,7 @@ import {
   json,
   type ActionFunctionArgs,
   LoaderFunctionArgs,
+  redirect,
 } from "@remix-run/node"
 import { Input } from "~/components/ui/input.tsx"
 import { Button } from "~/components/ui/button.tsx"
@@ -14,9 +15,9 @@ import { useForm, conform } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
 import { Form, useLoaderData } from "@remix-run/react"
 import { Section } from "~/components/ui/layout.tsx"
-import { editSchema, handleEditConntent } from "~/utils/cms.ts"
 import { createToastHeaders } from "~/utils/toast.server.ts"
 import { findBlog } from "~/services/blog/api/details.ts"
+import { handleEditBlog, inputSchema } from "~/utils/blog/blog.server.ts"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const slug = params.slug as string
@@ -30,29 +31,22 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const id = params.slug as string
-  const { blog } = await handleEditConntent(request, id)
+  const blog = await handleEditBlog(id, request)
   const toastHeaders = await createToastHeaders({
     title: "Success edit content",
     description: blog.title,
   })
 
-  return json(
-    {
-      blog,
-      success: true,
-    },
-    { headers: toastHeaders }
-  )
+  return redirect("/cms", { headers: toastHeaders })
 }
 
 export default function () {
   const loaderData = useLoaderData<typeof loader>()
   const { slug: editedSlug } = loaderData
-  // const actionData = useActionData<typeof action>()
   const [value, setValue] = useState<string>(loaderData.content)
   const [form, field] = useForm({
     onValidate({ formData }) {
-      const validated = parse(formData, { schema: editSchema })
+      const validated = parse(formData, { schema: inputSchema })
       return validated
     },
     defaultValue: {

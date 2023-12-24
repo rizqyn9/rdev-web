@@ -5,7 +5,7 @@ import { NotFound } from "~/utils/error/index.ts"
 import { invalidateBlogCache } from "~/utils/blog/blog.server.ts"
 
 // Create
-const createBlogDto = blogDto.pick({
+export const createBlogDto = blogDto.pick({
   slug: true,
   title: true,
   desc: true,
@@ -26,16 +26,17 @@ export async function createBlog(blog: CreateBlogDto) {
 
 type EditBlog = {
   id: string
-  content: string
-}
+} & CreateBlogDto
 
 export async function editBlog(data: EditBlog) {
-  const blog = await Blog.findById(data.id)
+  const { id, slug, ...rest } = data
+  const blog = await Blog.findById(id)
   if (!blog) {
     throw new NotFound()
   }
 
-  blog.content = data.content
+  if (slug != blog.slug) blog.slug = slug
+  Object.assign(blog, rest)
 
   await blog.save()
   await invalidateBlogCache({ slug: blog.slug })

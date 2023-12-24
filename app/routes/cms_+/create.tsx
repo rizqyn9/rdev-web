@@ -1,56 +1,71 @@
-import { default as CodeMirror } from "@uiw/react-codemirror"
+import { useForm, conform } from "@conform-to/react"
+import { Form, useLoaderData } from "@remix-run/react"
+import { Input } from "~/components/ui/input.tsx"
+import { parse } from "@conform-to/zod"
+import { Section } from "~/components/ui/layout.tsx"
+import { z } from "zod"
 import { useState } from "react"
 import { ClientOnly } from "remix-utils/client-only"
-import { markdown } from "@codemirror/lang-markdown"
 import { dracula } from "@uiw/codemirror-theme-dracula"
-import {
-  json,
-  type ActionFunctionArgs,
-  LoaderFunctionArgs,
-} from "@remix-run/node"
-import { Input } from "~/components/ui/input.tsx"
+import { markdown } from "@codemirror/lang-markdown"
+import { default as CodeMirror } from "@uiw/react-codemirror"
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node"
 import { Button } from "~/components/ui/button.tsx"
-import { useForm, conform } from "@conform-to/react"
-import { parse } from "@conform-to/zod"
-import { Form } from "@remix-run/react"
-import { Section } from "~/components/ui/layout.tsx"
-import { handleCreateConntent, inputSchema } from "~/utils/cms.ts"
 import { createToastHeaders } from "~/utils/toast.server.ts"
+import { handleCreateBlog } from "~/utils/blog/blog.server.ts"
+import { getErrorMessage } from "~/utils/error/index.ts"
 
-export async function loader({ params }: LoaderFunctionArgs) {
-  const slug = params.slug as string
-  if (!slug) {
-    return json({
-      mode: "create",
-    })
-  } else {
-    return json({
-      mode: "edit",
-    })
-  }
+const inputSchema = z.object({
+  content: z.string().min(1),
+})
+
+export async function loader() {
+  return json({
+    content: null,
+  })
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { blog } = await handleCreateConntent(request)
-  const toastHeaders = await createToastHeaders({
-    title: "Success created content",
-    description: blog.title,
-  })
+  try {
+    const blog = await handleCreateBlog(request)
+    const toastHeaders = await createToastHeaders({
+      title: "Success created content",
+      description: blog.title,
+    })
 
-  return json(
-    {
-      blog,
-      success: true,
-    },
-    { headers: toastHeaders }
-  )
+    return redirect("/cms", { headers: toastHeaders })
+  } catch (error) {
+    const toastHeaders = await createToastHeaders({
+      title: "Error creating content",
+      description: getErrorMessage(error),
+    })
+    return json({ success: false }, { headers: toastHeaders })
+  }
 }
 
+const TEMPLATE = `---
+title: HAHAH
+slug: test-mdx-2
+desc: This is example description
+banner:
+  title: Banner
+  url: https://creatures.dev/_astro/charts-3.56128dcd_B0Jwd.webp
+tags:
+  - Test
+  - Nodejs
+  - React
+author:
+  name: Rizqy Nugroho
+  avatar: https://ik.imagekit.io/connect2203/rdevblog/avatar_PRYh9Z9Bx.png?updatedAt=1701681868075
+
+isFeatured: false
+---
+
+This is content`
+
 export default function () {
-  // const loaderData = useLoaderData<typeof loader>()
-  // const { mode } = loaderData
-  // const actionData = useActionData<typeof action>()
-  const [value, setValue] = useState<string>("## This is markdown")
+  const loaderData = useLoaderData<typeof loader>()
+  const [value, setValue] = useState<string>(loaderData.content || TEMPLATE)
   const [form, field] = useForm({
     onValidate({ formData }) {
       const validated = parse(formData, { schema: inputSchema })
@@ -58,37 +73,13 @@ export default function () {
     },
   })
 
-  const {
-    slug,
-    title,
-    desc,
-    banner_img,
-    banner_title,
-    content,
-    tags,
-    isFeatured,
-  } = field
+  const { content } = field
 
   return (
     <Section>
-      <p className="my-5">Editor</p>
-      {/* {actionData?.success && (
-        <pre>{JSON.stringify(actionData.blog, null, 2)}</pre>
-      )} */}
-      <Form
-        className="flex flex-col gap-5"
-        method="POST"
-        encType="multipart/form-data"
-        {...form.props}
-      >
-        <Input placeholder="Slug" {...conform.input(slug)} />
-        <Input placeholder="Title" {...conform.input(title)} />
-        <Input placeholder="Description" {...conform.input(desc)} />
-        <Input placeholder="Tags" {...conform.input(tags)} />
-        <Input {...conform.input(banner_img, { type: "file" })} />
-        <Input placeholder="Banner title" {...conform.input(banner_title)} />
+      <h1>Test</h1>
+      <Form method="POST" {...form.props}>
         <Input type="hidden" {...conform.input(content)} value={value} />
-        <Input {...conform.input(isFeatured, { type: "checkbox" })} />
         <ClientOnly>
           {() => (
             // @ts-expect-error
