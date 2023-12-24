@@ -97,7 +97,7 @@ export default function BlogPage() {
       />
       <Section className="grid">
         {/* <div className="mdx prose w-full max-w-none md:col-span-5 col-span-full"> */}
-        <div className="mdx prose w-full max-w-none">
+        <div className="mdx prose w-full max-w-none overflow-auto">
           <Component />
         </div>
         {/* </div> */}
