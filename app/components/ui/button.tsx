@@ -65,7 +65,7 @@ export function ButtonBack(props: ButtonBackProps) {
   const { to } = props
   return (
     <Link
-      className="text-sm group flex gap-2 transition duration-500 hover:underline hover:underline-offset-4"
+      className="group text-base md:text-lg flex gap-2 transition duration-500 hover:underline hover:underline-offset-4"
       to={to}
     >
       <Icon
