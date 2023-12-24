@@ -56,9 +56,14 @@ export function Footer() {
           </div>
         </div>
       </Section>
-      <Section className="text-center italic text-slate-400 pb-4">
-        <p>© 2020-present rdev-hub.com</p>
-        <p>All Rights Reserved</p>
+      <Section className="text-center text-slate-400 pb-4">
+        <p>&copy; 2023 rdev-hub.com</p>
+        <p>
+          All rights reserved | Built with ❤️ and{" "}
+          <a href="https://remix.run/" className="text-white" target="__blank">
+            remix
+          </a>
+        </p>
       </Section>
     </footer>
   )

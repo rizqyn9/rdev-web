@@ -33,8 +33,8 @@ export function CardBlog(props: CardBlogProps) {
         "grid w-full border",
         "group overflow-hidden relative rounded-md border-white/10 shadow-inner bg-slate-900",
         "hover:bg-slate-800 hover:shadow-transparent",
-        "transition-all duration-500 ",
-        type === "general" && "items-center grid-cols-1",
+        "transition-all duration-500",
+        type === "general" && "grid-cols-1 grid-rows-card-container",
         type === "featured" && "md:grid-cols-2 md:gap-8 md:p-4",
         className
       )}
@@ -45,7 +45,7 @@ export function CardBlog(props: CardBlogProps) {
         alt={title}
         className={clsxm(
           "object-cover aspect-w-6 aspect-h-3",
-          type === "general" && "",
+          type === "general" && "row-span-2",
           type === "featured" &&
             "md:aspect-w-4 md:aspect-h-2 md:order-3 md:rounded-md md:shadow-lg shadow-white"
         )}
@@ -57,7 +57,7 @@ export function CardBlog(props: CardBlogProps) {
       <div
         className={clsxm(
           "grid grid-cols-1 gap-3 p-4",
-          type == "general" && "",
+          type == "general" && "row-span-2 grid-rows-card-preview",
           type == "featured" && "md:p-2 md:gap-y-6"
         )}
       >
@@ -72,9 +72,9 @@ export function CardBlog(props: CardBlogProps) {
           <button className="flex items-center gap-2">
             <div
               className={clsxm(
-                "bg-slate-500 rounded-full h-5 w-5 overflow-hidden flex-shrink-0",
+                "bg-slate-500 rounded-full h-8 w-8 overflow-hidden flex-shrink-0",
                 type === "general" && "",
-                type === "featured" && "h-8 w-8"
+                type === "featured" && "md:h-10 md:w-10 md:mr-2"
               )}
             >
               <img src={author.avatar} alt={author.name} title={author.name} />
@@ -83,16 +83,20 @@ export function CardBlog(props: CardBlogProps) {
           </button>
           <p className="text-right truncate">{date.raw}</p>
         </div>
-        <h2 className={clsxm("font-bold text-lg h-max line-clamp-2 leading-7")}>
+        <h2
+          className={clsxm(
+            "font-bold text-xl md:text-lg h-max line-clamp-2 leading-7"
+          )}
+        >
           {title}
         </h2>
-        <p className="text-slate-400 text-sm h-max line-clamp-2 leading-5">
+        <p className="text-slate-400 md:text-sm h-max line-clamp-2 leading-5">
           {desc}
         </p>
-        <div className="mt-auto">
+        <div className="mt-auto ml-auto md:ml-0">
           <ButtonGoTo
             to={to}
-            className={clsxm("text-xs", type == "featured" && "md:text-lg")}
+            className={clsxm("md:text-lg", type == "featured" && "md:text-lg")}
           />
         </div>
       </div>

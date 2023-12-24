@@ -1,4 +1,5 @@
 import ImageKit from "imagekit"
+import { Storage } from "~/services/storage/model.server.ts"
 
 export const imageKit = new ImageKit({
   privateKey: process.env.IMAGEKIT_PRIVATE,
@@ -16,24 +17,17 @@ export async function uploadFileWebToImagekit({
   name,
 }: UploadFileWebToImagekit) {
   const buffer = Buffer.from(await file.arrayBuffer())
-  return imageKit.upload({
+  const uploaded = await imageKit.upload({
     file: buffer,
     fileName: name,
   })
-}
-// export async function uploadToImagekit(body: {
-//   data: AsyncIterable<Uint8Array>
-//   type: string
-// }) {
-//   const dataArr: Uint8Array[] = []
-//   for await (const x of body.data) {
-//     dataArr.push(x)
-//   }
 
-//   const file = new File(dataArr, "", {type: body.type})
-//   Buffer.from(file)
-//   await imageKit.upload({
-//     file,
-//     fileName: ""
-//   })
-// }
+  await Storage.create({
+    url: uploaded.url,
+    path: uploaded.filePath,
+    title: name,
+    fileId: uploaded.fileId,
+  })
+
+  return uploaded
+}

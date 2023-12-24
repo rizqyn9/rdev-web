@@ -19,6 +19,10 @@ export default {
       center: true,
     },
     extend: {
+      gridTemplateRows: {
+        "card-preview": "2em 3em 3em 2em",
+        "card-container": "auto auto",
+      },
       screens: {
         sm: "640px",
         // => @media (min-width: 640px) { ... }
