@@ -5,22 +5,27 @@ import {
   useTransform,
   easeInOut,
 } from "framer-motion"
-import { useRef } from "react"
+import React, { useRef } from "react"
 import { AnimatedTextTemplate2 } from "~/components/typography/animated.tsx"
 
 const images = {
-  2: [
-    "https://ik.imagekit.io/connect2203/notopeli/95D22631-0403-493D-847B-2FDC7D66664D%202_thVUMkEqz.JPG?updatedAt=1695703039700",
-    "https://ik.imagekit.io/connect2203/notopeli/1FBB47DC-6A18-4AB6-941D-303AA3D59E70%202_1gA12AxTu.JPG?updatedAt=1695703039875",
-    "https://ik.imagekit.io/connect2203/notopeli/IMG_5137%202_FlkFsJbuh-.HEIC?updatedAt=1695703040068",
-    "https://ik.imagekit.io/connect2203/notopeli/93C27CBF-EECD-4BFB-9B74-C93CDC81079B%202_slZKx6Daa4.JPG?updatedAt=1695703039951",
-  ],
   1: [
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    "https://ik.imagekit.io/connect2203/lingotalk__Tqy5O_x0",
+    "https://ik.imagekit.io/connect2203/cariguru_2cOPIvisl",
+    "https://ik.imagekit.io/connect2203/blups_TEj24XpbI",
+    "https://ik.imagekit.io/connect2203/tabe_DO71LH86l",
+  ],
+  2: [
+    "https://ik.imagekit.io/connect2203/cariguru_2cOPIvisl",
+    "https://ik.imagekit.io/connect2203/connect_J_vilrSMj",
+    "https://ik.imagekit.io/connect2203/blups_TEj24XpbI",
+    "https://ik.imagekit.io/connect2203/lingotalk__Tqy5O_x0",
+  ],
+  3: [
+    "https://ik.imagekit.io/connect2203/cariguru_2cOPIvisl",
+    "https://ik.imagekit.io/connect2203/tabe_DO71LH86l",
+    "https://ik.imagekit.io/connect2203/blups_TEj24XpbI",
+    "https://ik.imagekit.io/connect2203/lingotalk__Tqy5O_x0",
   ],
 }
 
@@ -88,7 +93,7 @@ export function SkillSet() {
               },
             }}
           >
-            {images[1].map((x, idx) => {
+            {images[2].map((x, idx) => {
               return <img key={idx} src={x} alt={x} />
             })}
           </motion.div>
@@ -106,8 +111,8 @@ export function SkillSet() {
             })}
           </motion.div>
         </div>
-        <span className="mt-auto mb-16 z-50 bg-red-600" ref={refSpan}>
-          /
+        <span className="mt-auto mb-16 z-50" ref={refSpan}>
+          &nbsp;
         </span>
       </section>
     </>

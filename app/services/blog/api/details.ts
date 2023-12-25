@@ -9,7 +9,7 @@ type Opts = {}
 export async function findBlogDetails(
   filter: Filter,
   opts: Opts = {}
-): Promise<BlogDto & { createdAt: Date }> {
+): Promise<BlogDto & { createdAt: Date; timeToRead: number }> {
   let match = "slug" in filter ? { slug: filter.slug } : { _id: filter.id }
   const blog = await Blog.findOne(match).select(["-content"])
 

@@ -7,39 +7,33 @@ import clsxm from "~/utils/clsxm.tsx"
 const PROJECTS = [
   {
     title: "Lingotalk",
-    picture:
-      "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    picture: "https://ik.imagekit.io/connect2203/lingotalk__Tqy5O_x0",
     desc: "Backend",
   },
   {
-    title: "Gopay",
-    picture:
-      "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    desc: "DevOps",
+    title: "Cariguru",
+    picture: "https://ik.imagekit.io/connect2203/cariguru_2cOPIvisl",
+    desc: "Fullstack",
   },
   {
-    title: "Sinarmas",
-    picture:
-      "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    desc: "Backend",
+    title: "CIMB",
+    picture: "https://ik.imagekit.io/connect2203/cimb_UkDdwM0hS",
+    desc: "Frontend",
   },
   {
     title: "Blups asia",
-    picture:
-      "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    picture: "https://ik.imagekit.io/connect2203/blups_ZHMP10XVH",
     desc: "Frontend",
   },
   {
     title: "Tabe",
-    picture:
-      "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
+    picture: "https://ik.imagekit.io/connect2203/tabe_DO71LH86l",
     desc: "Dev Lead",
   },
   {
-    title: "GGPlay",
-    picture:
-      "https://images.unsplash.com/photo-1694125398686-fdbce8ca1054?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    desc: "Dev Lead",
+    title: "ConnectCoffee",
+    picture: "https://ik.imagekit.io/connect2203/connect_J_vilrSMj",
+    desc: "Full Stack",
   },
 ]
 
@@ -55,7 +49,7 @@ export function ImageInView(props: ImageInViewProps) {
 
   return (
     <motion.div
-      className="aspect-square overflow-hidden flex flex-col"
+      className="overflow-hidden flex flex-col"
       initial="hidden"
       animate={visible ? "visible" : "hidden"}
     >
@@ -71,26 +65,28 @@ export function ImageInView(props: ImageInViewProps) {
           className="font-thin md:text-xl"
         />
       </div>
-      <motion.img
-        {...rest}
-        ref={ref}
-        variants={{
-          visible: {
-            y: "0%",
-            scale: 1,
-            opacity: 1,
-          },
-          hidden: {
-            y: "80%",
-            scale: 2,
-            opacity: 0.6,
-          },
-        }}
-        transition={{
-          duration: 0.5,
-        }}
-        className={clsxm("w-full", className)}
-      />
+      <div className="aspect-w-1 aspect-h-1">
+        <motion.img
+          {...rest}
+          ref={ref}
+          variants={{
+            visible: {
+              y: "0%",
+              scale: 1,
+              opacity: 1,
+            },
+            hidden: {
+              y: "80%",
+              scale: 2,
+              opacity: 0.6,
+            },
+          }}
+          transition={{
+            duration: 0.5,
+          }}
+          className={clsxm("w-full object-cover", className)}
+        />
+      </div>
     </motion.div>
   )
 }

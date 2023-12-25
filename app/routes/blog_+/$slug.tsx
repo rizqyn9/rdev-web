@@ -4,7 +4,7 @@ import {
   MetaFunction,
   json,
 } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { useLoaderData, useParams } from "@remix-run/react"
 import { useMdxComponent } from "~/utils/mdx.tsx"
 import { ButtonBack } from "~/components/ui/button.tsx"
 // import { dateFormatEn } from "../../utils/date.ts"
@@ -15,6 +15,8 @@ import { RootLoaderType } from "~/root.tsx"
 import { getUrl } from "~/utils/misc.ts"
 import { findBlogBySlug } from "~/utils/blog/blog.server.ts"
 import { ContentHeader } from "~/components/ui/post/header.tsx"
+import { useCallback, useRef } from "react"
+import { useOnRead } from "~/components/hook/use-on-read.ts"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const slug = params.slug as string
@@ -30,12 +32,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
     description,
     author,
     createdAt,
+    timeToRead,
   } = await findBlogBySlug(slug)
 
   return json({
     banner,
     title,
     page: {
+      timeToRead,
       code,
       like,
       view,
@@ -77,12 +81,25 @@ export const meta: MetaFunction<typeof loader, { root: RootLoaderType }> = ({
   ]
 }
 
-export default function BlogPage() {
+export default function () {
   const loaderData = useLoaderData<typeof loader>()
-
   const { page, title, publish, banner } = loaderData
 
+  const params = useParams()
+  const { slug } = params
+  const readMarker = useRef<HTMLDivElement>(null)
+
   const Component = useMdxComponent(page.code.code)
+
+  useOnRead({
+    parentElRef: readMarker,
+    time: page.timeToRead,
+    onRead: useCallback(() => {
+      // if (isDraft) return
+      // if (slug) void markAsRead({slug})
+      console.log("Mark as read: ", slug)
+    }, [slug]),
+  })
 
   return (
     <>
@@ -97,7 +114,10 @@ export default function BlogPage() {
       />
       <Section className="grid">
         {/* <div className="mdx prose w-full max-w-none md:col-span-5 col-span-full"> */}
-        <div className="mdx prose w-full max-w-none overflow-auto">
+        <div
+          className="mdx prose w-full max-w-none overflow-auto"
+          ref={readMarker}
+        >
           <Component />
         </div>
         {/* </div> */}

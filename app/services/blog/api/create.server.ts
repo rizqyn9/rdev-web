@@ -3,6 +3,7 @@ import { blogDto } from "../schema.ts"
 import { Blog } from "../model.server.ts"
 import { NotFound } from "~/utils/error/index.ts"
 import { invalidateBlogCache } from "~/utils/blog/blog.server.ts"
+import calculateReadingTime from "reading-time"
 
 // Create
 export const createBlogDto = blogDto.pick({
@@ -16,12 +17,13 @@ export const createBlogDto = blogDto.pick({
 })
 export type CreateBlogDto = z.infer<typeof createBlogDto>
 
-export async function createBlog(blog: CreateBlogDto) {
-  const newBlog = new Blog(blog)
+export async function createBlog(data: CreateBlogDto) {
+  const blog = new Blog(data)
 
-  await newBlog.save()
+  blog.timeToRead = calculateReadingTime(data.content).minutes
+  await blog.save()
 
-  return newBlog
+  return blog
 }
 
 type EditBlog = {
@@ -37,6 +39,8 @@ export async function editBlog(data: EditBlog) {
 
   if (slug != blog.slug) blog.slug = slug
   Object.assign(blog, rest)
+
+  blog.timeToRead = calculateReadingTime(rest.content).minutes
 
   await blog.save()
   await invalidateBlogCache({ slug: blog.slug })

@@ -47,6 +47,7 @@ export async function findBlogBySlug(slug: string) {
     categories: blog.tags.map((x) => ({ text: x })),
     description: blog.desc,
     createdAt: dateFormatEn(blog.createdAt),
+    timeToRead: blog.timeToRead,
     banner: {
       title: blog.banner.title,
       src: blog.banner.url,

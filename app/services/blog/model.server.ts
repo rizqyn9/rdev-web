@@ -1,5 +1,6 @@
 import { Schema } from "mongoose"
 import { getModel } from "../db.server.ts"
+import calculateReadingTime from "reading-time"
 
 const DB_BLOG = "blog"
 
@@ -40,6 +41,7 @@ const schema = new Schema(
     isFeatured: { type: Boolean, default: false },
     view: { type: Number, default: 0 },
     like: { type: Number, default: 0 },
+    timeToRead: { type: Number, default: 0 },
     author: {
       type: authorSchema,
       default: {},
@@ -49,3 +51,13 @@ const schema = new Schema(
 )
 
 export const Blog = getModel(DB_BLOG, schema)
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function migrate() {
+  const blogs = await Blog.find({})
+  for (const blog of blogs) {
+    blog.timeToRead = calculateReadingTime(blog.content).minutes
+  }
+  await Blog.bulkSave(blogs)
+  console.log("Success update")
+}
