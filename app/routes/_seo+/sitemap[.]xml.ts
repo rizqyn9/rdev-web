@@ -5,17 +5,16 @@ import { type DataFunctionArgs } from "@remix-run/node"
 import { getDomainUrl } from "~/utils/misc.ts"
 
 export function loader({ request }: DataFunctionArgs) {
-  Object.assign(routes, {
-    "routes/test": {
-      id: "routes/upload/a",
-      parentId: "root/asd",
-      path: "upload/asd",
-      index: undefined,
-      caseSensitive: undefined,
-      module: [Object],
-    },
-  })
-  console.log({ routes })
+  // Object.assign(routes, {
+  //   "routes/test": {
+  //     id: "routes/upload/a",
+  //     parentId: "root/asd",
+  //     path: "upload/asd",
+  //     index: undefined,
+  //     caseSensitive: undefined,
+  //     module: [Object],
+  //   },
+  // })
 
   return generateSitemap(request, routes, {
     siteUrl: getDomainUrl(request),

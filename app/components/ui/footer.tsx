@@ -38,9 +38,14 @@ export function Footer() {
             <p>Thanks for reading!</p>
             <div className="flex gap-4">
               {CONTACTS.map((contact) => (
-                <Link to={contact.to} key={contact.icon}>
-                  <Icon name={contact.icon} />
-                </Link>
+                <a
+                  href={contact.to}
+                  key={contact.icon}
+                  target="__blank"
+                  className="w-8 h-8"
+                >
+                  <Icon size={"lg"} name={contact.icon} />
+                </a>
               ))}
             </div>
           </div>
