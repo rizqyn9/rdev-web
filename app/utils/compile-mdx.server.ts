@@ -10,7 +10,7 @@ import { visit } from "unist-util-visit"
 import remarkSlug from "remark-slug"
 import remarkAutolinkHeadings from "remark-autolink-headings"
 import remarkFlexibleCodeTitles from "remark-flexible-code-titles"
-import { cachified } from "cachified"
+import { cachified } from "@epic-web/cachified"
 import { redis, redisCacheAdapter } from "~/services/redis.server.ts"
 
 const rehypePlugins: U.PluggableList = [trimCodeBlocks, remarkCodeBlocksShiki]

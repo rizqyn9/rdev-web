@@ -17,6 +17,9 @@ dependencies:
   '@epic-web/cachified':
     specifier: ^4.0.0
     version: 4.0.0
+  '@epic-web/invariant':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@epic-web/remember':
     specifier: ^1.0.2
     version: 1.0.2
@@ -919,6 +922,10 @@ packages:
 
   /@epic-web/cachified@4.0.0:
     resolution: {integrity: sha512-5XPdddRV1NrRev5HjfvM72tBh2jnfzBXdbcirtt0G0hveDHT4pOPrYCfyHNt+QcKSX0yifXimWMirOVXtg8ewQ==}
+    dev: false
+
+  /@epic-web/invariant@1.0.0:
+    resolution: {integrity: sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==}
     dev: false
 
   /@epic-web/remember@1.0.2:
