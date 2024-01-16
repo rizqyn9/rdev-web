@@ -16,6 +16,7 @@ export function Layout(props: LayoutProps) {
 type SectionProps = {
   containerClassName?: string
   containerChildren?: React.ReactNode
+  wrapNav?: boolean
 } & JSX.IntrinsicElements["section"]
 export function Section(props: SectionProps) {
   const {
@@ -23,11 +24,16 @@ export function Section(props: SectionProps) {
     children,
     containerClassName,
     containerChildren,
+    wrapNav = false,
     ...rest
   } = props
   return (
     <section
-      className={clsxm("mx-[5vw] relative", containerClassName)}
+      className={clsxm([
+        "mx-[5vw] relative",
+        wrapNav && "pt-28",
+        containerClassName,
+      ])}
       {...rest}
     >
       {containerChildren}

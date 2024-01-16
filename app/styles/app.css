@@ -46,3 +46,81 @@
   --text-secondary: var(--color-slate-500);
   color-scheme: dark;
 }
+
+.stick-y {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background-color: #333;
+}
+
+.stick-runner-y {
+  position: absolute;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 25%;
+  background: linear-gradient(to bottom, transparent, white, transparent);
+  /* animation: runnerAnimationY 4s ease-in-out infinite; */
+  box-shadow: 0 0 1px white;
+  /* overflow: hidden; */
+}
+
+.stick-x {
+  --color-runner: rgb(255, 255, 255);
+  --color-bg-runner: rgb(51, 51, 51);
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-bg-runner);
+}
+
+.stick-runner-x {
+  position: absolute;
+  transform: translateY(-50%);
+  width: 25%;
+  height: 120%;
+  background: linear-gradient(
+    to left,
+    transparent,
+    var(--color-runner),
+    transparent
+  );
+  /* background: white; */
+  animation: runnerAnimationX 2s ease-in-out infinite;
+  box-shadow: 0 0 40px var(--color-runner);
+  overflow: hidden;
+}
+
+@keyframes runnerAnimationX {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  25%,
+  75% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(300%);
+    opacity: 0.5;
+  }
+}
+
+@keyframes runnerAnimationY {
+  0%,
+  100% {
+    transform: translateY(0);
+    /* top: 0%; */
+    opacity: 0.5;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(300%);
+    /* top: 0%; */
+    opacity: 0.5;
+  }
+}

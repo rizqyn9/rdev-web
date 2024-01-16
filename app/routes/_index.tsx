@@ -3,6 +3,8 @@ import type { MetaFunction } from "@remix-run/node"
 import { BGDots } from "~/components/ui/bg-dots.tsx"
 import { motion } from "framer-motion"
 import clsxm from "~/utils/clsxm.tsx"
+import { LightStick } from "~/components/ui/light-stick.tsx"
+import { Link } from "@remix-run/react"
 
 export const meta: MetaFunction = () => {
   return [
@@ -79,9 +81,14 @@ function AboutSection() {
       <div className="w-full">
         <div className="flex items-center justify-between">
           <p>SERVICES</p>
-          <p>MORE ABOUT ME</p>
+          <Link
+            to="about"
+            className="hover:underline underline-offset-2 focus-ring rounded-sm"
+          >
+            MORE ABOUT ME
+          </Link>
         </div>
-        <hr className="border mt-4 border-white w-full" />
+        <LightStick direction="x" className="mt-4" />
       </div>
       <div className="flex flex-col lg:text-[100px] md:text-[80px] sm:text-[50px] text-[35px] leading-[.8em] md:gap-8 gap-4 py-8">
         <div>
@@ -113,7 +120,7 @@ function ProjectSection() {
           <p>PROJECTS</p>
           <p>2022 - 2024</p>
         </div>
-        <hr className="border mt-4 border-white w-full" />
+        <LightStick direction="x" className="mt-4" />
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 my-16 gap-4 relative">
         <ProjectPreview />
@@ -188,9 +195,15 @@ function BlogSection() {
       <div className="w-full">
         <div className="flex items-center justify-between">
           <p>BLOGS</p>
-          <p>SEE MORE</p>
+          <Link
+            prefetch="intent"
+            to="/blog"
+            className="hover:underline underline-offset-2 focus-ring rounded-sm"
+          >
+            SEE MORE
+          </Link>
         </div>
-        <hr className="border mt-4 border-white w-full" />
+        <LightStick direction="x" className="mt-4" />
       </div>
       <div className="grid md:grid-cols-2 mt-16 md:grid-rows-2 gap-4">
         <BlogCard featured />
@@ -206,13 +219,14 @@ function BlogCard(props: { featured?: boolean }) {
   return (
     <div
       className={clsxm([
+        "group",
         featured && "md:row-span-2",
         !featured && "md:row-span-1 md:grid grid-cols-5 gap-2",
       ])}
     >
       <div
         className={clsxm([
-          "overflow-hidden aspect-h-9 aspect-w-16",
+          "overflow-hidden aspect-h-9 aspect-w-16 focus-ring border border-white/30 shadow-lg shadow-white/10",
           !featured && "md:rounded-br-3xl col-span-3",
           featured && "md:rounded-tl-3xl md:rounded-br-3xl",
         ])}
@@ -227,7 +241,7 @@ function BlogCard(props: { featured?: boolean }) {
       <div className={clsxm([featured && "", !featured && "col-span-2"])}>
         <p
           className={clsxm([
-            "text-2xl font-semibold",
+            "text-2xl font-semibold group-hover:underline underline-offset-2",
             !featured && "mt-4 md:mt-0 md:text-lg",
             featured && "mt-4",
           ])}

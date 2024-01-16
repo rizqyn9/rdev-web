@@ -2,6 +2,7 @@ import { Link } from "@remix-run/react"
 import { Icon, IconName } from "~/components/ui/icon.tsx"
 import { Section } from "./layout.tsx"
 import { NAV } from "./header.tsx"
+import { LightStick } from "./light-stick.tsx"
 
 type Contacts = Array<{
   to: string
@@ -24,6 +25,21 @@ const CONTACTS: Contacts = [
   {
     icon: "linkedin",
     to: "https://www.linkedin.com/in/rizqynugroho9",
+  },
+]
+
+const SOCIALS = [
+  {
+    name: "LINKEDIN",
+    href: "https://www.linkedin.com/in/rizqynugroho9",
+  },
+  {
+    name: "GITHUB",
+    href: "https://github.com/rizqyn9",
+  },
+  {
+    name: "GMAIL",
+    href: "mailto:rizqynugroho88@gmail.com",
   },
 ]
 
@@ -52,7 +68,7 @@ export function Footer() {
           <div className="flex flex-col gap-4 col-span-2">
             <h2 className="text-lg font-bold">Sitemap</h2>
             <ul className="flex flex-col gap-4">
-              {NAV.map((link) => (
+              {[...NAV, { title: "RSS", to: "/sitemap.xml" }].map((link) => (
                 <Link to={link.to} key={link.to} className="text-slate-400">
                   <ul>{link.title}</ul>
                 </Link>
@@ -85,18 +101,18 @@ export function FooterNew() {
               behavior: "smooth",
             })
           }}
-          className="ml-auto focus-ring px-2 py-1 rounded-sm"
+          className="ml-auto focus-ring px-2 py-1 rounded-sm hover:underline underline-offset-4"
         >
           (back_to_top)
         </button>
       </div>
-      <hr className="border border-white" />
+      <LightStick direction="x" className="mt-4" />
       <div className="grid md:grid-cols-5 grid-cols-3 gap-4 mt-8">
         <div>
           <p className="text-xl font-semibold">SITEMAP</p>
           <ul className="mt-2 text-gray-400">
-            {NAV.map((site) => (
-              <li key={site.to}>
+            {[...NAV, { title: "RSS", to: "/sitemap.xml" }].map((site) => (
+              <li key={site.to} className="hover:underline underline-offset-2">
                 <Link to={site.to}>{site.title}</Link>
               </li>
             ))}
@@ -105,8 +121,15 @@ export function FooterNew() {
         <div>
           <p className="text-xl font-semibold">SOCIALS</p>
           <ul className="mt-2 text-gray-400">
-            {["INSTAGRAM", "GITHUB", "GMAIL"].map((site) => (
-              <li key={site}>{site}</li>
+            {SOCIALS.map((social) => (
+              <li
+                key={social.name}
+                className="hover:underline underline-offset-2"
+              >
+                <a href={social.href} target="__blank">
+                  {social.name}
+                </a>
+              </li>
             ))}
           </ul>
         </div>
