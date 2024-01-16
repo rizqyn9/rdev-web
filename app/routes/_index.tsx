@@ -1,10 +1,20 @@
 import { Section } from "~/components/ui/layout.tsx"
-import type { MetaFunction } from "@remix-run/node"
+import { json, type MetaFunction } from "@remix-run/node"
 import { BGDots } from "~/components/ui/bg-dots.tsx"
 import { motion } from "framer-motion"
 import clsxm from "~/utils/clsxm.tsx"
 import { LightStick } from "~/components/ui/light-stick.tsx"
-import { Link } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
+import { blogList } from "~/services/blog/api/list.ts"
+
+export async function loader() {
+  const [blogs, featuredBlogs] = await Promise.all([
+    blogList({ isFeatured: false }),
+    blogList({ isFeatured: true }),
+  ])
+
+  return json({ blogs, featuredBlogs })
+}
 
 export const meta: MetaFunction = () => {
   return [
@@ -190,6 +200,11 @@ function ProjectPreview() {
 }
 
 function BlogSection() {
+  const loaderData = useLoaderData<typeof loader>()
+  const { blogs, featuredBlogs } = loaderData
+
+  const featured = featuredBlogs[0]
+
   return (
     <Section className="py-16">
       <div className="w-full">
@@ -205,19 +220,41 @@ function BlogSection() {
         </div>
         <LightStick direction="x" className="mt-4" />
       </div>
-      <div className="grid md:grid-cols-2 mt-16 md:grid-rows-2 gap-4">
-        <BlogCard featured />
-        <BlogCard />
-        <BlogCard />
+      <div className="grid md:grid-cols-2 mt-16 md:grid-rows-2 gap-8 md:gap-2">
+        {featured && (
+          <BlogCard
+            featured
+            slug={featured.slug}
+            banner={featured.banner.url}
+            title={featured.title}
+            createdAt={featured.date.full}
+          />
+        )}
+        {blogs.map((blog) => (
+          <BlogCard
+            key={blog.slug}
+            slug={blog.slug}
+            banner={blog.banner.url}
+            title={blog.title}
+            createdAt={blog.date.full}
+          />
+        ))}
       </div>
     </Section>
   )
 }
 
-function BlogCard(props: { featured?: boolean }) {
-  const { featured = false } = props
+function BlogCard(props: {
+  featured?: boolean
+  slug: string
+  banner: string
+  title: string
+  createdAt: string
+}) {
+  const { featured = false, slug, banner, title, createdAt } = props
   return (
-    <div
+    <Link
+      to={`/blog/${slug}`}
       className={clsxm([
         "group",
         featured && "md:row-span-2",
@@ -232,32 +269,33 @@ function BlogCard(props: { featured?: boolean }) {
         ])}
       >
         <motion.img
-          src="/static/test-blog.png"
-          alt="test-blog"
-          title="test-blog"
+          src={banner}
+          alt={title}
+          title={title}
           className="w-full absolute object-cover"
         />
       </div>
       <div className={clsxm([featured && "", !featured && "col-span-2"])}>
         <p
           className={clsxm([
-            "text-2xl font-semibold group-hover:underline underline-offset-2",
-            !featured && "mt-4 md:mt-0 md:text-lg",
-            featured && "mt-4",
+            "text-lg font-semibold group-hover:underline underline-offset-2",
+            !featured &&
+              "mt-4 md:mt-0 md:text-lg md:line-clamp-2 lg:line-clamp-4",
+            featured && "mt-4 md:text-2xl",
           ])}
         >
-          Create React App
+          {title}
         </p>
         <p
           className={clsxm([
-            "mt-2",
+            "mt-2 italic",
             featured && "",
-            !featured && "md:text-sm md:mt-1",
+            !featured && "md:text-sm",
           ])}
         >
-          December 12, 2023
+          {createdAt}
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
