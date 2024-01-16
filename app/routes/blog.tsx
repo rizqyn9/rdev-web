@@ -28,21 +28,23 @@ export default function BlogPage() {
   return (
     <>
       <BGDots />
-      <Section className="lg:mx-44 md:mx-24 sm:mx-8 mx-4 my-56">
-        <p className="text-center text-2xl md:text-4xl font-semibold leading-relaxed text-gray-300">
-          Greetings 🙋, fellow developers, and coding enthusiasts! I'm Rizqy,
-          the architect behind the keystrokes and lines of code you're about to
-          explore here at{" "}
-          <Link
-            to="/"
-            className="underline italic underline-offset-4 font-bold text-slate-50"
-          >
-            <span>rdev.space</span>
-          </Link>
-          . This digital space is my playground, where technology meets
-          creativity, and I'm thrilled to have you join me on this coding
-          expedition.
-        </p>
+      <Section className="">
+        <div className="lg:mx-44 md:mx-24 sm:mx-8 mx-4 my-56">
+          <p className="text-center text-2xl md:text-4xl font-semibold leading-relaxed text-gray-300">
+            Greetings 🙋, fellow developers, and coding enthusiasts! I'm Rizqy,
+            the architect behind the keystrokes and lines of code you're about
+            to explore here at{" "}
+            <Link
+              to="/"
+              className="underline italic underline-offset-4 font-bold text-slate-50"
+            >
+              <span>rdev.space</span>
+            </Link>
+            . This digital space is my playground, where technology meets
+            creativity, and I'm thrilled to have you join me on this coding
+            expedition.
+          </p>
+        </div>
       </Section>
       <Section>
         <H3 className="text-2xl font-semibold">FEATURED</H3>

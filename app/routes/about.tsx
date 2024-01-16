@@ -4,13 +4,30 @@ import { BGDots } from "~/components/ui/bg-dots.tsx"
 import { Section } from "~/components/ui/layout.tsx"
 import { motion } from "framer-motion"
 import { CardExperience } from "~/components/pages/about.tsx"
+import { MetaFunction } from "@remix-run/node"
+import { getSocialMetas } from "~/utils/seo.ts"
+import { RootLoaderType } from "~/root.tsx"
+import { getUrl } from "~/utils/misc.ts"
+
+export const meta: MetaFunction<unknown, { root: RootLoaderType }> = ({
+  matches,
+}) => {
+  const requestInfo = matches.find((m) => m.id === "root")?.data.requestInfo
+
+  return [
+    ...getSocialMetas({
+      url: getUrl(requestInfo),
+      title: "Rdev | About",
+    }),
+  ]
+}
 
 export default function AboutMePage() {
   return (
     <>
       <BGDots />
       <Section className="mt-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-4">
             <CardAboutMe />
             <CardExperience />

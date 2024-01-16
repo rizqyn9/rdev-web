@@ -34,6 +34,7 @@ export const links: LinksFunction = () => {
     { rel: "preload", href: tailwindStyleSheetUrl, as: "style" },
     { rel: "preload", href: proseStyleSheetUrl, as: "style" },
     { rel: "preload", href: appStyleSheetUrl, as: "style" },
+    { rel: "preload", href: "/static/noise.gif", as: "image" },
     ...getFavicoLinks,
     cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
     { rel: "stylesheet", href: tailwindStyleSheetUrl },

@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react"
 import { Icon, IconName } from "~/components/ui/icon.tsx"
-import { NAV_ITEM } from "~/components/ui/nav.tsx"
 import { Section } from "./layout.tsx"
+import { NAV } from "./header.tsx"
 
 type Contacts = Array<{
   to: string
@@ -52,9 +52,9 @@ export function Footer() {
           <div className="flex flex-col gap-4 col-span-2">
             <h2 className="text-lg font-bold">Sitemap</h2>
             <ul className="flex flex-col gap-4">
-              {NAV_ITEM.map((link) => (
-                <Link to={link.to} key={link.label} className="text-slate-400">
-                  <ul>{link.label}</ul>
+              {NAV.map((link) => (
+                <Link to={link.to} key={link.to} className="text-slate-400">
+                  <ul>{link.title}</ul>
                 </Link>
               ))}
             </ul>
@@ -74,24 +74,30 @@ export function Footer() {
   )
 }
 
-const SITEMAP = [
-  { name: "HOME", to: "/" },
-  { name: "BLOG", to: "/blog" },
-  { name: "ABOUT ME", to: "/about-me" },
-  { name: "CONTACT", to: "/contact" },
-]
-
 export function FooterNew() {
   return (
     <Section className="py-16">
+      <div className="flex mb-3">
+        <button
+          onClick={() => {
+            window?.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            })
+          }}
+          className="ml-auto focus-ring px-2 py-1 rounded-sm"
+        >
+          (back_to_top)
+        </button>
+      </div>
       <hr className="border border-white" />
-      <div className="grid grid-cols-5 gap-4 mt-8">
+      <div className="grid md:grid-cols-5 grid-cols-3 gap-4 mt-8">
         <div>
           <p className="text-xl font-semibold">SITEMAP</p>
           <ul className="mt-2 text-gray-400">
-            {SITEMAP.map((site) => (
+            {NAV.map((site) => (
               <li key={site.to}>
-                <Link to={site.to}>{site.name}</Link>
+                <Link to={site.to}>{site.title}</Link>
               </li>
             ))}
           </ul>

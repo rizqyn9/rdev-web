@@ -2,7 +2,7 @@ import { Link } from "@remix-run/react"
 import { Section } from "./layout.tsx"
 import { Logo } from "./logo.tsx"
 
-const NAV = [
+export const NAV = [
   { title: "HOME", to: "/" },
   { title: "BLOG", to: "/blog" },
   { title: "ABOUT ME", to: "/about" },
