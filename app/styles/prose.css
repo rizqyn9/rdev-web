@@ -1,7 +1,8 @@
 /* code syntax highlighting */
 /* dark is default: */
 pre {
-  --base00: #011627; /* editor background */
+  /*--base00: #011627; /* editor background */
+  --base00: #262626; /* editor background */
   --base01: #2d2d2d; /* unused (currently) */
   --base02: #424242; /* unused (currently) */
   --base03: #637777; /* code comments */

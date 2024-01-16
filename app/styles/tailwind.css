@@ -1,16 +1,20 @@
-/* purgecss start ignore */
 @tailwind base;
 @tailwind components;
-/* purgecss end ignore */
-
 @tailwind utilities;
 @tailwind screens;
 
-/* tailwind is configured to prefer this font */
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/poppins/Poppins-ExtraBold.ttf") format("ttf");
+  src: url("/fonts/poppins.woff2") format("woff2");
+  font-style: normal;
   font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/montserrat.woff2") format("woff2");
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -95,4 +99,29 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply ring-primary ring-offset-4 ring-offset-white transition duration-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary group-hover:ring-2 group-hover:ring-primary group-focus:ring-2 group-focus:ring-primary hover:ring-2 hover:ring-primary focus:outline-none focus:ring-2 focus:ring-primary disabled:ring-0 dark:ring-offset-gray-900;
+  }
+}
+
+@supports (-webkit-text-stroke: 3px white) {
+  .text-stroke {
+    -webkit-text-fill-color: black;
+    -webkit-text-stroke: 3px white;
+  }
+}
+
+.custom-gradient {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+}
+
+body {
+  overflow-x: hidden;
 }

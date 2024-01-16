@@ -15,14 +15,22 @@ export function Layout(props: LayoutProps) {
 
 type SectionProps = {
   containerClassName?: string
+  containerChildren?: React.ReactNode
 } & JSX.IntrinsicElements["section"]
 export function Section(props: SectionProps) {
-  const { className, children, containerClassName, ...rest } = props
+  const {
+    className,
+    children,
+    containerClassName,
+    containerChildren,
+    ...rest
+  } = props
   return (
     <section
-      className={clsxm("mx-[10vw] relative", containerClassName)}
+      className={clsxm("mx-[5vw] relative", containerClassName)}
       {...rest}
     >
+      {containerChildren}
       <div className={clsxm("max-w-7xl mx-auto", className)}>{children}</div>
     </section>
   )

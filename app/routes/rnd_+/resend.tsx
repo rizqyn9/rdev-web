@@ -6,8 +6,8 @@ import { resend } from "~/services/resend.server.ts"
 
 export async function action() {
   const email = await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: "rizqynugroho9@gmail.com",
+    from: "onboarding@rdev.space",
+    to: "rizqynugroho88@gmail.com",
     subject: "Tasyoo",
     html: "<p>Hi sayang <strong>Tasyo</strong>!</p>",
   })

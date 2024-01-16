@@ -103,7 +103,7 @@ export default function () {
 
   return (
     <>
-      <Section className="py-8">
+      <Section className="py-8 pt-24 md:pt-44">
         <ButtonBack to="/blog" />
       </Section>
       <ContentHeader

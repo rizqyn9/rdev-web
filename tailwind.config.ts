@@ -3,6 +3,7 @@ import typography from "@tailwindcss/typography"
 import aspectRatio from "@tailwindcss/aspect-ratio"
 import tailwindcssAnimate from "tailwindcss-animate"
 import scrollbar from "tailwind-scrollbar"
+import defaultTheme from "tailwindcss/defaultTheme.js"
 
 export default {
   darkMode: "class",
@@ -19,11 +20,18 @@ export default {
       center: true,
     },
     extend: {
+      fontFamily: {
+        sans: ["Poppins", ...defaultTheme.fontFamily.sans],
+        montserrat: ["Montserrat", ...defaultTheme.fontFamily.sans],
+      },
       gridTemplateRows: {
         "card-preview": "2em 3em 3em 2em",
         "card-container": "auto auto",
       },
       screens: {
+        xs: "460px",
+        // => @media (min-width: 460px) { ... }
+
         sm: "640px",
         // => @media (min-width: 640px) { ... }
 
@@ -46,7 +54,10 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          v2: "#181818",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -67,6 +78,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          red: "#F64B4B",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

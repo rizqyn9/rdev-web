@@ -1,10 +1,10 @@
+import { BlogCard, BlogFeaturedCard } from "~/components/ui/blog-card.tsx"
 import { MetaFunction, json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
-import { CardBlog } from "~/components/ui/card-blog.tsx"
-import { Layout, Section } from "~/components/ui/layout.tsx"
+import { Section } from "~/components/ui/layout.tsx"
 import { H3 } from "~/components/ui/typography.tsx"
 import { blogList } from "~/services/blog/api/list.ts"
-import { getBlogUrl } from "~/utils/blog/blog.tsx"
+import { BGDots } from "~/components/ui/bg-dots.tsx"
 
 export async function loader() {
   const [blogs, featuredBlogs] = await Promise.all([
@@ -21,22 +21,23 @@ export async function loader() {
 export const meta: MetaFunction = () => {
   return [{ title: "RDev | Blog" }]
 }
-export default function () {
+export default function BlogPage() {
   const loaderData = useLoaderData<typeof loader>()
   const { blogs, featuredBlogs } = loaderData
 
   return (
-    <Layout className="flex flex-col gap-4">
-      <Section>
-        <p className="text-center md:px-16 py-16 text-2xl font-semibold leading-relaxed text-slate-300">
+    <>
+      <BGDots />
+      <Section className="lg:mx-44 md:mx-24 sm:mx-8 mx-4 my-56">
+        <p className="text-center text-2xl md:text-4xl font-semibold leading-relaxed text-gray-300">
           Greetings 🙋, fellow developers, and coding enthusiasts! I'm Rizqy,
           the architect behind the keystrokes and lines of code you're about to
           explore here at{" "}
           <Link
             to="/"
-            className="underline underline-offset-4 font-bold text-slate-50"
+            className="underline italic underline-offset-4 font-bold text-slate-50"
           >
-            rdev-hub.com
+            <span>rdev.space</span>
           </Link>
           . This digital space is my playground, where technology meets
           creativity, and I'm thrilled to have you join me on this coding
@@ -44,32 +45,38 @@ export default function () {
         </p>
       </Section>
       <Section>
-        <H3 className="col-span-full mb-5">Featured Post</H3>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-          {featuredBlogs.map((blog) => (
-            <CardBlog
-              type="featured"
-              to={getBlogUrl({ slug: blog.slug })}
-              key={blog.id}
-              className="col-span-full"
-              {...blog}
+        <H3 className="text-2xl font-semibold">FEATURED</H3>
+        <div className="h-[2px] w-full bg-white mb-8 mt-2" />
+        {featuredBlogs.map((blog) => (
+          <BlogFeaturedCard
+            key={blog.slug}
+            slug={blog.slug}
+            banner={blog.banner.url}
+            author={{
+              avatar: blog.author.avatar,
+              name: blog.author.name,
+            }}
+            title={blog.title}
+            desc={blog.desc}
+            createdAt={blog.date.full}
+          />
+        ))}
+      </Section>
+      <Section className="pt-16">
+        <H3 className="text-2xl font-semibold">WRITING</H3>
+        <div className="h-[2px] w-full bg-white mb-5 mt-2" />
+        <div className="grid md:grid-cols-2 gap-6 mb-20 lg:mb-40 mt-8">
+          {blogs.map((blog) => (
+            <BlogCard
+              key={blog.slug}
+              slug={blog.slug}
+              title={blog.title}
+              createdAt={blog.date.full}
+              banner={blog.banner.url}
             />
           ))}
         </div>
       </Section>
-      <Section>
-        <H3 className="mb-5">Post</H3>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-20 lg:mb-40">
-          {blogs.map((blog, idx) => (
-            <CardBlog
-              type="general"
-              key={idx}
-              to={getBlogUrl({ slug: blog.slug })}
-              {...blog}
-            />
-          ))}
-        </div>
-      </Section>
-    </Layout>
+    </>
   )
 }

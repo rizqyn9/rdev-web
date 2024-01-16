@@ -37,7 +37,8 @@ export const blogPreviewSchema = z.object({
     .catch(["React", "Nodejs", "Nodejs2", "Nodejs1", "Nodejs3", "Nodejs4"]),
   date: z.coerce.date().transform((x) => {
     const raw = dateFormatEn(x)
-    return { raw }
+    const full = dateFormatEn(x, "full")
+    return { raw, full }
   }),
   author: z.object({
     name: z.string(),

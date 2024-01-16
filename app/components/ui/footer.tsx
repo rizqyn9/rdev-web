@@ -73,3 +73,38 @@ export function Footer() {
     </footer>
   )
 }
+
+const SITEMAP = [
+  { name: "HOME", to: "/" },
+  { name: "BLOG", to: "/blog" },
+  { name: "ABOUT ME", to: "/about-me" },
+  { name: "CONTACT", to: "/contact" },
+]
+
+export function FooterNew() {
+  return (
+    <Section className="py-16">
+      <hr className="border border-white" />
+      <div className="grid grid-cols-5 gap-4 mt-8">
+        <div>
+          <p className="text-xl font-semibold">SITEMAP</p>
+          <ul className="mt-2 text-gray-400">
+            {SITEMAP.map((site) => (
+              <li key={site.to}>
+                <Link to={site.to}>{site.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="text-xl font-semibold">SOCIALS</p>
+          <ul className="mt-2 text-gray-400">
+            {["INSTAGRAM", "GITHUB", "GMAIL"].map((site) => (
+              <li key={site}>{site}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </Section>
+  )
+}
