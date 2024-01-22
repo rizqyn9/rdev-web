@@ -44,6 +44,14 @@ function MainSection() {
         <div>IAM</div>
         <div>RIZQY</div>
         <div className="text-slate-500 text-xl mt-4">Fullstack Engineer</div>
+
+        <a
+          href="/resume-rizqy-prastya-ari-nugoroho.pdf"
+          download
+          className="underline !text-base mt-8 uppercase underline-offset-4 hover:underline-offset-8 block w-min whitespace-nowrap cursor-pointer transition-all duration-300"
+        >
+          Get My Resume
+        </a>
       </div>
       {/* TITLE LARGE */}
       <div className="hidden relative md:flex font-sans items-center justify-center h-screen flex-col gap-2 mx-auto">
@@ -71,7 +79,13 @@ function MainSection() {
             </p>
             <p className="text-lg font-semibold">Indonesia</p>
           </div>
-          <div className="text-gray-400">(scroll)</div>
+          <a
+            href="/resume-rizqy-prastya-ari-nugoroho.pdf"
+            download
+            className="underline !text-base mt-8 uppercase underline-offset-4 hover:underline-offset-8 block w-min whitespace-nowrap cursor-pointer transition-all duration-300"
+          >
+            Get My Resume
+          </a>
           <div className="flex flex-wrap min-w-min w-min items-center">
             <p className="whitespace-nowrap text-gray-400">
               Freelance Availibility
