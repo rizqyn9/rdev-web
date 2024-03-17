@@ -77,6 +77,7 @@ export default function App() {
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="google-adsense-account" content="ca-pub-7768058911493718" />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7768058911493718"
