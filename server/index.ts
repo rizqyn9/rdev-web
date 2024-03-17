@@ -133,11 +133,18 @@ app.use(
         "font-src": ["'self'"],
         "frame-src": ["'self'"],
         // Image source allow
-        "img-src": ["'self'", "data:", "images.unsplash.com", "ik.imagekit.io"],
+        "img-src": [
+          "'self'",
+          "data:",
+          "images.unsplash.com",
+          "ik.imagekit.io",
+          "pagead2.googlesyndication.com",
+        ],
         "script-src": [
           "'strict-dynamic'",
           "'self'",
           "'unsafe-eval'",
+          "pagead2.googlesyndication.com",
           // @ts-expect-error
           (_, res) => `'nonce-${res.locals.cspNonce}'`,
         ],

@@ -77,6 +77,12 @@ export default function App() {
   return (
     <html lang="en" className="dark">
       <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7768058911493718"
+          crossOrigin="anonymous"
+          nonce={nonce}
+        ></script>
         <Meta />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
