@@ -13,5 +13,12 @@
     "console",
     "node:console"
   ],
-  "tailwindCSS.classAttributes": ["class", "className", "tw"]
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "tw"
+  ],
+  "yaml.schemas": {
+    "https://www.artillery.io/schema.json": []
+  }
 }
