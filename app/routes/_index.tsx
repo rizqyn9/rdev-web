@@ -28,7 +28,7 @@ export default function IndexPage() {
     <>
       <MainSection />
       <AboutSection />
-      <ProjectSection />
+      {/* <ProjectSection /> */}
       <BlogSection />
     </>
   )
@@ -45,13 +45,13 @@ function MainSection() {
         <div>RIZQY</div>
         <div className="text-slate-500 text-xl mt-4">Fullstack Engineer</div>
 
-        <a
+        {/* <a
           href="/resume-rizqy-prastya-ari-nugoroho.pdf"
           download
           className="underline !text-base mt-8 uppercase underline-offset-4 hover:underline-offset-8 block w-min whitespace-nowrap cursor-pointer transition-all duration-300"
         >
           Get My Resume
-        </a>
+        </a> */}
       </div>
       {/* TITLE LARGE */}
       <div className="hidden relative md:flex font-sans items-center justify-center h-screen flex-col gap-2 mx-auto">
@@ -79,13 +79,13 @@ function MainSection() {
             </p>
             <p className="text-lg font-semibold">Indonesia</p>
           </div>
-          <a
+          {/* <a
             href="/resume-rizqy-prastya-ari-nugoroho.pdf"
             download
             className="underline !text-base mt-8 uppercase underline-offset-4 hover:underline-offset-8 block w-min whitespace-nowrap cursor-pointer transition-all duration-300"
           >
             Get My Resume
-          </a>
+          </a> */}
           <div className="flex flex-wrap min-w-min w-min items-center">
             <p className="whitespace-nowrap text-gray-400">
               Freelance Availibility
@@ -136,82 +136,82 @@ function AboutSection() {
   )
 }
 
-function ProjectSection() {
-  return (
-    <Section className="mt-16">
-      <div className="w-full">
-        <div className="flex items-center justify-between">
-          <p>PROJECTS</p>
-          <p>2022 - 2024</p>
-        </div>
-        <LightStick direction="x" className="mt-4" />
-      </div>
-      <div className="grid md:grid-cols-2 grid-cols-1 my-16 gap-4 relative">
-        <ProjectPreview />
-        <ProjectPreview />
-        <ProjectPreview />
-        <ProjectPreview />
-      </div>
-    </Section>
-  )
-}
+// function ProjectSection() {
+//   return (
+//     <Section className="mt-16">
+//       <div className="w-full">
+//         <div className="flex items-center justify-between">
+//           <p>PROJECTS</p>
+//           <p>2022 - 2024</p>
+//         </div>
+//         <LightStick direction="x" className="mt-4" />
+//       </div>
+//       <div className="grid md:grid-cols-2 grid-cols-1 my-16 gap-4 relative">
+//         <ProjectPreview />
+//         <ProjectPreview />
+//         <ProjectPreview />
+//         <ProjectPreview />
+//       </div>
+//     </Section>
+//   )
+// }
 
-function ProjectPreview() {
-  return (
-    <motion.div initial="initial" whileHover="focus">
-      <motion.div
-        variants={{
-          initial: { padding: "0.5rem" },
-          focus: { padding: "0rem" },
-        }}
-        className="border border-white/10 rounded-2xl w-full p-2"
-      >
-        <div className="border border-white/10 rounded-xl aspect-w-1 aspect-h-1 overflow-hidden relative">
-          <motion.img
-            src="/static/test-project.png"
-            alt="test-project"
-            title="test-project"
-            className="w-full absolute"
-            variants={{
-              initial: {
-                filter: "grayscale(100%)",
-                scale: 1.8,
-                rotate: "35deg",
-              },
-              focus: {
-                filter: "grayscale(0%)",
-                scale: [1.6, 1.4, 1.2],
-                rotate: "0deg",
-              },
-            }}
-            transition={{
-              duration: 0.5,
-              ease: "easeInOut",
-            }}
-          />
-        </div>
-      </motion.div>
-      <motion.div
-        className="pl-2"
-        animate="show"
-        initial="initial"
-        variants={{
-          initial: {
-            y: "100%",
-            opacity: 0,
-          },
-          show: {
-            y: "0%",
-            opacity: 1,
-          },
-        }}
-      >
-        <p className="text-3xl">BLUPS ASIA</p>
-        <p>(2023)</p>
-      </motion.div>
-    </motion.div>
-  )
-}
+// function ProjectPreview() {
+//   return (
+//     <motion.div initial="initial" whileHover="focus">
+//       <motion.div
+//         variants={{
+//           initial: { padding: "0.5rem" },
+//           focus: { padding: "0rem" },
+//         }}
+//         className="border border-white/10 rounded-2xl w-full p-2"
+//       >
+//         <div className="border border-white/10 rounded-xl aspect-w-1 aspect-h-1 overflow-hidden relative">
+//           <motion.img
+//             src="/static/test-project.png"
+//             alt="test-project"
+//             title="test-project"
+//             className="w-full absolute"
+//             variants={{
+//               initial: {
+//                 filter: "grayscale(100%)",
+//                 scale: 1.8,
+//                 rotate: "35deg",
+//               },
+//               focus: {
+//                 filter: "grayscale(0%)",
+//                 scale: [1.6, 1.4, 1.2],
+//                 rotate: "0deg",
+//               },
+//             }}
+//             transition={{
+//               duration: 0.5,
+//               ease: "easeInOut",
+//             }}
+//           />
+//         </div>
+//       </motion.div>
+//       <motion.div
+//         className="pl-2"
+//         animate="show"
+//         initial="initial"
+//         variants={{
+//           initial: {
+//             y: "100%",
+//             opacity: 0,
+//           },
+//           show: {
+//             y: "0%",
+//             opacity: 1,
+//           },
+//         }}
+//       >
+//         <p className="text-3xl">BLUPS ASIA</p>
+//         <p>(2023)</p>
+//       </motion.div>
+//     </motion.div>
+//   )
+// }
 
 function BlogSection() {
   const loaderData = useLoaderData<typeof loader>()
